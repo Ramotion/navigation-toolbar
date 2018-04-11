@@ -56,7 +56,11 @@ class AnimationView: UIView, UICollectionViewDelegate, UICollectionViewDataSourc
     collectionView?.dataSource    = self
     collectionView?.register(Cell.self, forCellWithReuseIdentifier: "Cell")
     collectionView?.backgroundColor = .green
-    collectionView?.contentInsetAdjustmentBehavior = .never
+    if #available(iOS 11.0, *) {
+      collectionView?.contentInsetAdjustmentBehavior = .never
+    } else {
+      // Fallback on earlier versions
+    }
 //    collectionView?.bounces = true
     
     collectionView?.backgroundView = CollectionUnderView()
