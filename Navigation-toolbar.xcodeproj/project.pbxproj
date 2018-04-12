@@ -19,6 +19,8 @@
 		EE5CFF85207E0D7300E63121 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5CFF84207E0D7300E63121 /* Extensions.swift */; };
 		EE5CFF87207E0F8F00E63121 /* AnimationViewSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5CFF86207E0F8F00E63121 /* AnimationViewSettings.swift */; };
 		EE5CFF89207E13AF00E63121 /* CollectionUnderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5CFF88207E13AF00E63121 /* CollectionUnderView.swift */; };
+		EE809294207EA06B00A5D363 /* GesturedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE809293207EA06B00A5D363 /* GesturedCollectionView.swift */; };
+		EE809296207EA07A00A5D363 /* GesturedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE809295207EA07A00A5D363 /* GesturedScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		EE5CFF84207E0D7300E63121 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EE5CFF86207E0F8F00E63121 /* AnimationViewSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationViewSettings.swift; sourceTree = "<group>"; };
 		EE5CFF88207E13AF00E63121 /* CollectionUnderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionUnderView.swift; sourceTree = "<group>"; };
+		EE809293207EA06B00A5D363 /* GesturedCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GesturedCollectionView.swift; sourceTree = "<group>"; };
+		EE809295207EA07A00A5D363 /* GesturedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GesturedScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,8 @@
 				EE57F4A42076B3DF0030F5A4 /* AnimationMiddleView.swift */,
 				EE57F4A62076B4D80030F5A4 /* Cell.swift */,
 				EE5CFF88207E13AF00E63121 /* CollectionUnderView.swift */,
+				EE809293207EA06B00A5D363 /* GesturedCollectionView.swift */,
+				EE809295207EA07A00A5D363 /* GesturedScrollView.swift */,
 			);
 			path = AnimationSubviews;
 			sourceTree = "<group>";
@@ -188,6 +194,8 @@
 				EE57F4A52076B3DF0030F5A4 /* AnimationMiddleView.swift in Sources */,
 				EE57F4A92076DAD00030F5A4 /* Layout.swift in Sources */,
 				9D63DE300DE156FA770B945D /* AppDelegate.swift in Sources */,
+				EE809294207EA06B00A5D363 /* GesturedCollectionView.swift in Sources */,
+				EE809296207EA07A00A5D363 /* GesturedScrollView.swift in Sources */,
 				EE5CFF85207E0D7300E63121 /* Extensions.swift in Sources */,
 				EE5CFF87207E0F8F00E63121 /* AnimationViewSettings.swift in Sources */,
 				EE57F4A72076B4D80030F5A4 /* Cell.swift in Sources */,

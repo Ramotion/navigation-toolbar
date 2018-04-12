@@ -1,15 +1,19 @@
 import UIKit
 
-class AnimationView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AnimationMiddleViewDelegate, UIScrollViewDelegate {
+class AnimationView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AnimationMiddleViewDelegate, UIGestureRecognizerDelegate {
   
   private var menuBtn: UIButton?
   
-  private var collectionView: UICollectionView?
+  private var collectionLayout = Layout()
+  private var collectionView: GesturedCollectionView?
   private var middleView = AnimationMiddleView()
-  private var scrollView = UIScrollView()
+  private var scrollView = GesturedScrollView()
   
   private var hhh: CGFloat = 64
-  private var collectionLayout = Layout()
+  
+  private var collectionUnderlayView = CollectionUnderView()
+  
+  private var isTouchingTop: Bool = false
   
   let dummyViews: [UIView] = [UIView(), UIView(), UIView(), UIView(), UIView(), UIView()]
   
@@ -44,13 +48,20 @@ class AnimationView: UIView, UICollectionViewDelegate, UICollectionViewDataSourc
     super.init(coder: aDecoder)
     configure()
   }
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    if (gestureRecognizer is UIPanGestureRecognizer) {
+      return true
+    } else {
+      return false
+    }
+  }
   
   private func configure() {
     self.backgroundColor = .yellow
     
     middleView.delegate = self
     
-    collectionView                = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
+    collectionView = GesturedCollectionView(frame: .zero, collectionViewLayout: collectionLayout)
     collectionView?.clipsToBounds = true
     collectionView?.delegate      = self
     collectionView?.dataSource    = self
@@ -58,17 +69,15 @@ class AnimationView: UIView, UICollectionViewDelegate, UICollectionViewDataSourc
     collectionView?.backgroundColor = .green
     if #available(iOS 11.0, *) {
       collectionView?.contentInsetAdjustmentBehavior = .never
-    } else {
-      // Fallback on earlier versions
     }
-//    collectionView?.bounces = true
-    
-    collectionView?.backgroundView = CollectionUnderView()
+    collectionView?.isPagingEnabled = true
+    collectionView?.bounces        = false
+    collectionView?.backgroundView = collectionUnderlayView
     
     scrollView.backgroundColor = .red
     scrollView.isPagingEnabled = true
-//    scrollView.bounces         = true
-    scrollView.delegate = self
+    scrollView.bounces         = false
+    scrollView.delegate        = self
     
     menuBtn = UIButton(type: .custom)
     menuBtn?.setTitle("menu", for: .normal)
@@ -95,7 +104,7 @@ class AnimationView: UIView, UICollectionViewDelegate, UICollectionViewDataSourc
     
     collectionView?.frame       = self.bounds
     collectionView?.contentSize = CGSize(width: 100.0, height: 100.0)
-
+    
     middleView.frame            = CGRect(x: 0, y: hhh, width: w, height: 65)
     scrollView.frame            = CGRect(x: 0, y: middleView.frame.maxY, width: w, height: h - middleView.frame.maxY)
     scrollView.contentSize      = CGSize(width: w * CGFloat(dummyViews.count), height: scrollView.frame.height)
@@ -135,7 +144,7 @@ class AnimationView: UIView, UICollectionViewDelegate, UICollectionViewDataSourc
     default:
       break
     }
- 
+    
     cell.setState(state: viewState)
     
     return cell
@@ -159,8 +168,8 @@ class AnimationView: UIView, UICollectionViewDelegate, UICollectionViewDataSourc
     if viewState < 0 {
       viewState = 0
     }
-
-    for cell in (self.collectionView?.visibleCells)! {
+    
+    for cell in (self.collectionView!.visibleCells) {
       (cell as! Cell).setState(state: viewState)
     }
   }
@@ -171,7 +180,7 @@ class AnimationView: UIView, UICollectionViewDelegate, UICollectionViewDataSourc
       viewState = 2
     }
     
-    for cell in (self.collectionView?.visibleCells)! {
+    for cell in (self.collectionView!.visibleCells) {
       (cell as! Cell).setState(state: viewState)
     }
   }
@@ -190,18 +199,11 @@ class AnimationView: UIView, UICollectionViewDelegate, UICollectionViewDataSourc
   }
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//    if scrollView == collectionView {
-//      self.synchronizeScrollView(self.scrollView, toScrollView: collectionView!)
-//    } else if scrollView == self.scrollView {
-//      self.synchronizeScrollView(collectionView!, toScrollView: self.scrollView)
-//    }
-  }
-  
-  func synchronizeScrollView(_ scrollViewToScroll: UIScrollView, toScrollView scrolledView: UIScrollView) {
-    var offset = scrollViewToScroll.contentOffset
-    offset.x = scrolledView.contentOffset.x
-    
-    scrollViewToScroll.setContentOffset(offset, animated: false)
+    if (collectionView?.isDragging)! {
+      self.scrollView.contentOffset.x = scrollView.contentOffset.x
+    } else {
+      collectionView?.contentOffset.x = scrollView.contentOffset.x
+    }
   }
   
 }

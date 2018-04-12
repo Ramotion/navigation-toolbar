@@ -1,11 +1,3 @@
-//
-//  CollectionUnderView.swift
-//  Animationtask
-//
-//  Created by obozhdi on 11/04/2018.
-//  Copyright © 2018 obozhdi. All rights reserved.
-//
-
 import UIKit
 
 class CollectionUnderView: UIView {
@@ -26,6 +18,7 @@ class CollectionUnderView: UIView {
     self.backgroundColor = .white
     
     imageViewCurrent.backgroundColor = .black
+    imageViewCurrent.image = UIImage(named: "collection_bg")
     imageViewTemp.backgroundColor = .purple
     
     self.addSubview(imageViewCurrent)
@@ -37,6 +30,10 @@ class CollectionUnderView: UIView {
     
     imageViewCurrent.frame = self.bounds
     imageViewTemp.frame = self.bounds
+  }
+  
+  func scrollFunc(scrollView: UIScrollView) {
+//    print("UNDERLAY DELEGATE")
   }
   
 }
