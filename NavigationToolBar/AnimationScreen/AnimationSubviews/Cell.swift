@@ -34,7 +34,7 @@ class Cell: UICollectionViewCell {
   }
   
   private func configure() {
-    self.backgroundColor  = .black
+    self.backgroundColor  = .clear
     
     imageView.contentMode = .scaleAspectFill
     imageView.clipsToBounds = true
@@ -50,7 +50,6 @@ class Cell: UICollectionViewCell {
     
     imageView.frame = self.bounds
     
-//    self.addSubview(imageViewBottom)
 //    self.addSubview(imageView)
     self.addSubview(cellLabel)
     
@@ -84,6 +83,7 @@ class Cell: UICollectionViewCell {
     self.state = state
     let w = self.bounds.size.width
     let h = self.bounds.size.height
+    
     UIView.animate(withDuration: 0.25) {
       if state == 0 || state == 1 {
         self.cellLabel.frame = self.bounds
@@ -92,7 +92,7 @@ class Cell: UICollectionViewCell {
         self.cellLabel.frame = CGRect(x: 47, y: 0, width: w - 47, height: h)
         self.cellLabel.textAlignment = .left
       }
-//      self.imageView.frame = CGRect(x: self.left, y: 0, width: self.bounds.size.width - self.left, height: self.bounds.size.height)
+      self.imageView.frame = CGRect(x: self.left, y: 0, width: self.bounds.size.width - self.left, height: self.bounds.size.height)
 
       self.setNeedsLayout()
       self.layoutIfNeeded()

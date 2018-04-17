@@ -204,6 +204,7 @@ class AnimationView: UIView, UICollectionViewDelegate, UICollectionViewDataSourc
     } else {
       collectionView?.contentOffset.x = scrollView.contentOffset.x
     }
+    collectionUnderlayView.scrollFunc(scrollView: scrollView)
   }
   
 }
