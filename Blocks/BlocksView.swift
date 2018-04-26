@@ -41,6 +41,8 @@ enum ScrollDirection {
 }
 
 class BlocksView: UIView {
+  private var quantity: Int = 0
+  private var controllers: [UIViewController] = []
   
   private var underlayImageView: UIImageView = UIImageView()
   private var underlayTransitionImageView: UIImageView = UIImageView()
@@ -48,11 +50,10 @@ class BlocksView: UIView {
   private var midView: AnimationMiddleView = AnimationMiddleView()
   private var botView: AnimationBottomView = AnimationBottomView()
   
-  private var quantity: Int = 6
   private var scrollContentSize: CGSize {
     get {
       let w = UIScreen.main.bounds.width * CGFloat(quantity)
-      let h = CGFloat(quantity) * UIScreen.main.bounds.height + CGFloat(quantity) * CGFloat(10)
+      let h = CGFloat(quantity) * Layout.TopView.botSize + CGFloat(quantity) * Layout.TopView.botInterval
       
       return CGSize(width: w, height: h)
     }
@@ -143,6 +144,19 @@ class BlocksView: UIView {
     }
   }
   
+  init(objects: [BigObject]) {
+    super.init(frame:.zero)
+    
+    self.quantity = objects.count
+    
+    for object in objects {
+      self.controllers.append(object.controller)
+      self.images.append(object.image)
+      self.strings.append(object.title)
+    }
+    setup()
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setup()
@@ -153,22 +167,8 @@ class BlocksView: UIView {
     setup()
   }
   
-  ///////////////////DUMMY
-  let images: [UIImage] = [UIImage(named: "pic_agony")!,
-                           UIImage(named: "pic_depression")!,
-                           UIImage(named: "pic_gaming")!,
-                           UIImage(named: "pic_movies")!,
-                           UIImage(named: "pic_science")!,
-                           UIImage(named: "pic_tech")!]
-  
-  
-  let strings: [String] = ["MOOD",
-                           "SURVIVAL",
-                           "GAMING",
-                           "MOVIES",
-                           "SCIENCE",
-                           "TECHNOLOGY",
-                           ]
+  var images: [UIImage] = []
+  var strings: [String] = []
   
   private func setup() {
     self.backgroundColor = .gray
@@ -185,11 +185,7 @@ class BlocksView: UIView {
     
     midView.delegate = self
     
-    var controllers: [UIViewController] = []
-    for _ in strings {
-      controllers.append(DummyController())
-    }
-    botView.setControllers(controllers: controllers)
+    botView.setControllers(controllers: self.controllers)
     
     scrollview.delegate                 = self
     botView.scrollView.delegate         = self
@@ -279,7 +275,7 @@ class BlocksView: UIView {
     
     let preservedH = rectsTop[Int(index)].minY
     
-    for _ in 0...quantity {
+    for _ in 0..<quantity {
       let rect = CGRect(x: w * CGFloat(index), y: preservedH + (CGFloat(counter) * Layout.TopView.botSize + CGFloat(counter) * CGFloat(vertical)), width: w, height: Layout.TopView.botSize)
       rectsBot.append(rect)
       counter += 1
