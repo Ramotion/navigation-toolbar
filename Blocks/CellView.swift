@@ -5,7 +5,7 @@
 import UIKit
 
 protocol CellViewDelegate {
-  func didTapCell(index: Int)
+  func didTapCell(index: Int, cell: CellView)
 }
 
 class CellView: UIView {
@@ -16,8 +16,6 @@ class CellView: UIView {
   
   private var imageLeftOffset: CGFloat = 0
   private var tapGest: UITapGestureRecognizer = UITapGestureRecognizer()
-  
-  var animator: UIViewPropertyAnimator!
   
   var delegate: CellViewDelegate?
   
@@ -68,13 +66,9 @@ class CellView: UIView {
   private func setup() {
     self.backgroundColor = .clear
     
-    animator = UIViewPropertyAnimator(duration: 2, curve: .easeInOut) { [unowned self, imageView] in
-      imageView.center.x  = self.bounds.width / 2
-      imageView.transform = CGAffineTransform(translationX : 2.5, y : 0)
-    }
-    
     imageView.contentMode   = .scaleAspectFill
     imageView.clipsToBounds = true
+    imageView.isHidden      = true
     imageView.isHidden      = true
     
     view.backgroundColor = .white
@@ -112,7 +106,7 @@ class CellView: UIView {
   }
   
   @objc private func tapCell() {
-    self.delegate?.didTapCell(index: index)
+    self.delegate?.didTapCell(index: index, cell: self)
   }
   
   func setData(data: (text: String, image: UIImage), index: Int) {
@@ -136,10 +130,5 @@ class CellView: UIView {
     
     self.state = state
   }
-  
-  func setTransparency(transparency: CGFloat) {
-    animator.fractionComplete = transparency
-  }
-  
 
 }

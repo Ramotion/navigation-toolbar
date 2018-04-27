@@ -33,14 +33,16 @@ class BlocksController: UIViewController {
                            ]
   
   private func createObjects() -> [BigObject] {
-    let obj1 = BigObject(colorStart: UIColor.red, colorEnd: UIColor.green, title: "1", image: UIImage(named : "pic_agony")!, controller: DummyController())
-    let obj2 = BigObject(colorStart: UIColor.red, colorEnd: UIColor.green, title: "2", image: UIImage(named : "pic_agony")!, controller: DummyController())
-    let obj3 = BigObject(colorStart: UIColor.red, colorEnd: UIColor.green, title: "3", image: UIImage(named : "pic_agony")!, controller: DummyController())
-    let obj4 = BigObject(colorStart: UIColor.red, colorEnd: UIColor.green, title: "4", image: UIImage(named : "pic_agony")!, controller: DummyController())
-    let obj5 = BigObject(colorStart: UIColor.red, colorEnd: UIColor.green, title: "5", image: UIImage(named : "pic_agony")!, controller: DummyController())
-    let obj6 = BigObject(colorStart: UIColor.red, colorEnd: UIColor.green, title: "6", image: UIImage(named : "pic_agony")!, controller: DummyController())
+    let obj1 = BigObject(colorStart : UIColor.red, colorEnd : UIColor.green, title : "1", image : UIImage(named : "pic_agony")!, controller : DummyController())
+    let obj2 = BigObject(colorStart : UIColor.red, colorEnd : UIColor.green, title : "2", image : UIImage(named : "pic_depression")!, controller : DummyController())
+    let obj3 = BigObject(colorStart : UIColor.red, colorEnd : UIColor.green, title : "3", image : UIImage(named : "pic_gaming")!, controller : DummyController())
+    let obj4 = BigObject(colorStart : UIColor.red, colorEnd : UIColor.green, title : "4", image : UIImage(named : "pic_movies")!, controller : DummyController())
+    let obj5 = BigObject(colorStart : UIColor.red, colorEnd : UIColor.green, title : "5", image : UIImage(named : "pic_science")!, controller : DummyController())
+    let obj6 = BigObject(colorStart : UIColor.red, colorEnd : UIColor.green, title : "6", image : UIImage(named : "pic_tech")!, controller : DummyController())
+    let obj7 = BigObject(colorStart : UIColor.red, colorEnd : UIColor.green, title : "7", image : UIImage(named : "pic_depression")!, controller : DummyController())
+    let obj8 = BigObject(colorStart : UIColor.red, colorEnd : UIColor.green, title : "8", image : UIImage(named : "pic_gaming")!, controller : DummyController())
     
-    return [obj1, obj2, obj3, obj4, obj5, obj6]
+    return [obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8]
   }
   
   override func loadView() {

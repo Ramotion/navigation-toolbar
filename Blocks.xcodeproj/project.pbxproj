@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE8070AC209257A3006E5081 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8070AB209257A3006E5081 /* Settings.swift */; };
 		EEB375632091E8DD00739E46 /* AnimationMiddleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB375622091E8DD00739E46 /* AnimationMiddleView.swift */; };
 		EEB375652091EE3400739E46 /* AnimationBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB375642091EE3400739E46 /* AnimationBottomView.swift */; };
 		EEB375682091EFE200739E46 /* DummyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB375672091EFE200739E46 /* DummyController.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EE8070AB209257A3006E5081 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		EEB375622091E8DD00739E46 /* AnimationMiddleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationMiddleView.swift; sourceTree = "<group>"; };
 		EEB375642091EE3400739E46 /* AnimationBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationBottomView.swift; sourceTree = "<group>"; };
 		EEB375672091EFE200739E46 /* DummyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyController.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				EED44496208D2ABC00E5E011 /* CellView.swift */,
 				EED44498208D2DDF00E5E011 /* Extensions.swift */,
 				EED4449A208D2EA200E5E011 /* Dummies.swift */,
+				EE8070AB209257A3006E5081 /* Settings.swift */,
 				EEE22AAA20892D2A0078D155 /* Assets.xcassets */,
 				EEE22AAC20892D2A0078D155 /* LaunchScreen.storyboard */,
 				EEE22AAF20892D2A0078D155 /* Info.plist */,
@@ -172,6 +175,7 @@
 				EEB375682091EFE200739E46 /* DummyController.swift in Sources */,
 				EED4449B208D2EA200E5E011 /* Dummies.swift in Sources */,
 				EEB3756A2091EFEF00739E46 /* DummyCell.swift in Sources */,
+				EE8070AC209257A3006E5081 /* Settings.swift in Sources */,
 				EEE22AB620892D560078D155 /* BlocksController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
