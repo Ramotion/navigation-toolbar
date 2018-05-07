@@ -8,7 +8,7 @@ class AnimationBottomView: UIView {
   
   var scrollView: UIScrollView = UIScrollView()
   
-  private var controllers : [UIViewController] = []
+  private var controllers : [ScreenObject] = []
   private var views       : [UIView]           = []
   
   override init(frame: CGRect) {
@@ -47,9 +47,9 @@ class AnimationBottomView: UIView {
     scrollView.contentSize = CGSize(width: w * CGFloat(views.count), height: h)
   }
   
-  func setControllers(controllers: [UIViewController]) {
-    for controller in controllers {
-      views.append(controller.view)
+  func setScreens(screens: [ScreenObject]) {
+    for screen in screens {
+      views.append(screen.controller.view)
     }
     for view in views {
       scrollView.addSubview(view)

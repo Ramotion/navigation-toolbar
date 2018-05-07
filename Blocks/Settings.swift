@@ -1,28 +1,20 @@
 //
-//  Settings.swift
-//  Blocks
+//  Copyright © 2018 Ramotion. All rights reserved.
 //
-//  Created by obozhdi on 26/04/2018.
-//  Copyright © 2018 obozhdi. All rights reserved.
-//
+
 
 import Foundation
 import UIKit
 
 public struct Layout {
   struct TopView {
-    static let topSize     : CGFloat = 64
-    static let midSize     : CGFloat = UIScreen.main.bounds.height / 2 - 37.5
-    static let botSize     : CGFloat = 120
-    static let botInterval : CGFloat = 4
+    static let topStateSize        : CGFloat = 64.0
+    static let middleStateSize     : CGFloat = UIScreen.main.bounds.height / 2 - MidView.height / 2
+    static let bottomStateSize     : CGFloat = 120.0
+    static let bottomStateInterval : CGFloat = 4.0
   }
   struct MidView {
-    static let height : CGFloat = 65
+    static let height : CGFloat = 65.5
   }
   
-  struct BotView {
-    static let heightTop : CGFloat = UIScreen.main.bounds.height - Layout.TopView.topSize
-    static let heightMid : CGFloat = UIScreen.main.bounds.height - Layout.TopView.midSize
-    static let heightBot : CGFloat = UIScreen.main.bounds.height - Layout.TopView.midSize
-  }
 }
