@@ -7,35 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE039E40209F442000B782E8 /* AnimationScalingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE039E3F209F442000B782E8 /* AnimationScalingView.swift */; };
+		EE3F86462097284A00CA5FFE /* TransitionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F86442097284A00CA5FFE /* TransitionCell.swift */; };
+		EE7716D62096887600154F46 /* AnimationTransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7716D52096887600154F46 /* AnimationTransitionView.swift */; };
+		EE7716D820968C1000154F46 /* AnimatedCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7716D720968C1000154F46 /* AnimatedCollectionViewLayout.swift */; };
+		EE7716DC20968C6F00154F46 /* Animators.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7716DB20968C6F00154F46 /* Animators.swift */; };
+		EE8070AC209257A3006E5081 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8070AB209257A3006E5081 /* Settings.swift */; };
+		EE870C4B20A040CE00077AB9 /* AnimationProgressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE870C4A20A040CE00077AB9 /* AnimationProgressButton.swift */; };
 		EEB375632091E8DD00739E46 /* AnimationMiddleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB375622091E8DD00739E46 /* AnimationMiddleView.swift */; };
 		EEB375652091EE3400739E46 /* AnimationBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB375642091EE3400739E46 /* AnimationBottomView.swift */; };
 		EEB375682091EFE200739E46 /* DummyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB375672091EFE200739E46 /* DummyController.swift */; };
 		EEB3756A2091EFEF00739E46 /* DummyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB375692091EFEF00739E46 /* DummyCell.swift */; };
 		EED44497208D2ABC00E5E011 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED44496208D2ABC00E5E011 /* CellView.swift */; };
 		EED44499208D2DDF00E5E011 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED44498208D2DDF00E5E011 /* Extensions.swift */; };
-		EED4449B208D2EA200E5E011 /* Dummies.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4449A208D2EA200E5E011 /* Dummies.swift */; };
 		EEE22AA420892D280078D155 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE22AA320892D280078D155 /* AppDelegate.swift */; };
 		EEE22AAB20892D2A0078D155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEE22AAA20892D2A0078D155 /* Assets.xcassets */; };
 		EEE22AAE20892D2A0078D155 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EEE22AAC20892D2A0078D155 /* LaunchScreen.storyboard */; };
-		EEE22AB620892D560078D155 /* BlocksController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE22AB520892D560078D155 /* BlocksController.swift */; };
-		EEE22AB820892D650078D155 /* BlocksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE22AB720892D650078D155 /* BlocksView.swift */; };
+		EEE22AB620892D560078D155 /* AnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE22AB520892D560078D155 /* AnimationController.swift */; };
+		EEE22AB820892D650078D155 /* NavigationToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE22AB720892D650078D155 /* NavigationToolbarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EE039E3F209F442000B782E8 /* AnimationScalingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationScalingView.swift; sourceTree = "<group>"; };
+		EE3F86442097284A00CA5FFE /* TransitionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionCell.swift; sourceTree = "<group>"; };
+		EE7716D52096887600154F46 /* AnimationTransitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTransitionView.swift; sourceTree = "<group>"; };
+		EE7716D720968C1000154F46 /* AnimatedCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedCollectionViewLayout.swift; sourceTree = "<group>"; };
+		EE7716DB20968C6F00154F46 /* Animators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animators.swift; sourceTree = "<group>"; };
+		EE8070AB209257A3006E5081 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		EE870C4A20A040CE00077AB9 /* AnimationProgressButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationProgressButton.swift; sourceTree = "<group>"; };
 		EEB375622091E8DD00739E46 /* AnimationMiddleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationMiddleView.swift; sourceTree = "<group>"; };
 		EEB375642091EE3400739E46 /* AnimationBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationBottomView.swift; sourceTree = "<group>"; };
 		EEB375672091EFE200739E46 /* DummyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyController.swift; sourceTree = "<group>"; };
 		EEB375692091EFEF00739E46 /* DummyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyCell.swift; sourceTree = "<group>"; };
 		EED44496208D2ABC00E5E011 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		EED44498208D2DDF00E5E011 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		EED4449A208D2EA200E5E011 /* Dummies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummies.swift; sourceTree = "<group>"; };
 		EEE22AA020892D270078D155 /* Blocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEE22AA320892D280078D155 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EEE22AAA20892D2A0078D155 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EEE22AAD20892D2A0078D155 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EEE22AAF20892D2A0078D155 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EEE22AB520892D560078D155 /* BlocksController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlocksController.swift; sourceTree = "<group>"; };
-		EEE22AB720892D650078D155 /* BlocksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlocksView.swift; sourceTree = "<group>"; };
+		EEE22AB520892D560078D155 /* AnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationController.swift; sourceTree = "<group>"; };
+		EEE22AB720892D650078D155 /* NavigationToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationToolbarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,13 +91,19 @@
 			children = (
 				EEB375662091EFD100739E46 /* DummyController */,
 				EEE22AA320892D280078D155 /* AppDelegate.swift */,
-				EEE22AB520892D560078D155 /* BlocksController.swift */,
-				EEE22AB720892D650078D155 /* BlocksView.swift */,
+				EEE22AB520892D560078D155 /* AnimationController.swift */,
+				EEE22AB720892D650078D155 /* NavigationToolbarView.swift */,
+				EE7716D52096887600154F46 /* AnimationTransitionView.swift */,
+				EE039E3F209F442000B782E8 /* AnimationScalingView.swift */,
+				EE870C4A20A040CE00077AB9 /* AnimationProgressButton.swift */,
+				EE3F86442097284A00CA5FFE /* TransitionCell.swift */,
+				EE7716D720968C1000154F46 /* AnimatedCollectionViewLayout.swift */,
+				EE7716DB20968C6F00154F46 /* Animators.swift */,
 				EEB375622091E8DD00739E46 /* AnimationMiddleView.swift */,
 				EEB375642091EE3400739E46 /* AnimationBottomView.swift */,
 				EED44496208D2ABC00E5E011 /* CellView.swift */,
 				EED44498208D2DDF00E5E011 /* Extensions.swift */,
-				EED4449A208D2EA200E5E011 /* Dummies.swift */,
+				EE8070AB209257A3006E5081 /* Settings.swift */,
 				EEE22AAA20892D2A0078D155 /* Assets.xcassets */,
 				EEE22AAC20892D2A0078D155 /* LaunchScreen.storyboard */,
 				EEE22AAF20892D2A0078D155 /* Info.plist */,
@@ -163,16 +181,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE039E40209F442000B782E8 /* AnimationScalingView.swift in Sources */,
+				EE7716D820968C1000154F46 /* AnimatedCollectionViewLayout.swift in Sources */,
 				EED44499208D2DDF00E5E011 /* Extensions.swift in Sources */,
 				EED44497208D2ABC00E5E011 /* CellView.swift in Sources */,
-				EEE22AB820892D650078D155 /* BlocksView.swift in Sources */,
+				EEE22AB820892D650078D155 /* NavigationToolbarView.swift in Sources */,
 				EEE22AA420892D280078D155 /* AppDelegate.swift in Sources */,
+				EE7716DC20968C6F00154F46 /* Animators.swift in Sources */,
 				EEB375652091EE3400739E46 /* AnimationBottomView.swift in Sources */,
 				EEB375632091E8DD00739E46 /* AnimationMiddleView.swift in Sources */,
+				EE870C4B20A040CE00077AB9 /* AnimationProgressButton.swift in Sources */,
+				EE3F86462097284A00CA5FFE /* TransitionCell.swift in Sources */,
+				EE7716D62096887600154F46 /* AnimationTransitionView.swift in Sources */,
 				EEB375682091EFE200739E46 /* DummyController.swift in Sources */,
-				EED4449B208D2EA200E5E011 /* Dummies.swift in Sources */,
 				EEB3756A2091EFEF00739E46 /* DummyCell.swift in Sources */,
-				EEE22AB620892D560078D155 /* BlocksController.swift in Sources */,
+				EE8070AC209257A3006E5081 /* Settings.swift in Sources */,
+				EEE22AB620892D560078D155 /* AnimationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
