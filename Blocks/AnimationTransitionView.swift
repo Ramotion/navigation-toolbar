@@ -88,7 +88,7 @@ class AnimationTransitionView: UIView {
     collectionViewNavbar.frame   = CGRect(x : 0, y : 0, width : w, height : Layout.TopView.topStateSize)
     collectionViewMidImage.frame = CGRect(x : 0, y : 0, width : w, height : Layout.TopView.middleStateSize)
     collectionViewMidText.frame  = CGRect(x : 0, y : 0, width : w, height : Layout.TopView.middleStateSize)
-    scalingView.frame            = CGRect(x : 0, y : 0, width : w, height : currentHeight)
+//    scalingView.frame            = CGRect(x : 0, y : 0, width : w, height : currentHeight)
   }
   
   private func setLayout() {

@@ -34,6 +34,8 @@ class NavigationToolbarView: UIView {
     }
   }
   
+  private var track: Bool = true
+  
   private var duration: Double = 0.75
   
   private var currentIndex: Int = 0
@@ -53,10 +55,15 @@ class NavigationToolbarView: UIView {
       case .horizontal:
         mainScrollview.isPagingEnabled = true
 //        mainScrollview.contentInset = UIEdgeInsets(top: 0, left: -((cellViews.first?.frame.minX)!), bottom: -((cellViews.last?.frame.maxY)!), right: -1 * (self.mainScrollview.contentSize.width - ((cellViews.last?.frame.maxX)!)))
+        mainScrollview.contentInset = UIEdgeInsets.zero
+        menuIsOpen = false
         
       case .vertical:
         mainScrollview.isPagingEnabled = false
-//        mainScrollview.contentInset = UIEdgeInsets(top: 0, left: -(cellViews[currentIndex].frame.minX), bottom: 0, right: -1 * (self.mainScrollview.contentSize.width - ((cellViews.last?.frame.maxX)!)))
+        mainScrollview.contentInset = UIEdgeInsets(top: 0, left: -(cellViews[currentIndex].frame.minX), bottom: 0, right: -1 * (self.mainScrollview.contentSize.width - ((cellViews.last?.frame.maxX)!)))
+//        mainScrollview.contentInset = UIEdgeInsets(top: 0, left: -(cellViews[currentIndex].frame.minX), bottom: 0, right: 0)
+        print("desired OFFSET: \(-1 * (self.mainScrollview.contentSize.width - ((cellViews.last?.frame.maxX)!)))")
+        menuIsOpen = true
       }
       
       setViewsState(progress: getNormalizedProgress(), state: state)
@@ -122,17 +129,14 @@ class NavigationToolbarView: UIView {
     self.addSubview(transitionImageView)
     self.makeCells()
     self.addSubview(mainScrollview)
-    self.addSubview(middleView)
     self.addSubview(bottomView)
+    self.addSubview(middleView)
     self.addSubview(menuButton)
     
     self.middleView.addGestureRecognizer(panRecognizer!)
     
     mainScrollview.contentInset = UIEdgeInsets(top: 0, left: -((cellViews.first?.frame.minX)!), bottom: -((cellViews.last?.frame.maxY)!), right: -1 * (self.mainScrollview.contentSize.width - ((cellViews.last?.frame.maxX)!)))
     
-    print("-----------------------")
-    print("JUST STARTED: top state")
-    print("-----------------------")
     showTOPCOL()
     hideSCALV()
     hideMIDCOLTXT()
@@ -154,8 +158,8 @@ class NavigationToolbarView: UIView {
       middleView.frame = CGRect(x: 0, y: Layout.TopView.topStateSize, width: self.bounds.width, height: Layout.MidView.height)
       middleViewFrameIsSet = false
     }
-    transitionImageView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: middleView.frame.minY)
-    transitionImageView.currentHeight = middleView.frame.minY
+    transitionImageView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: Layout.TopView.middleStateSize)
+//    transitionImageView.currentHeight = middleView.frame.minY
     
     bottomView.frame = CGRect(x: 0, y: middleView.frame.maxY, width: CGFloat(w), height: self.bounds.height - middleView.frame.maxY)
     
@@ -166,35 +170,53 @@ class NavigationToolbarView: UIView {
       setScrollOffset()
     }
     
+    let prog = (middleView.frame.origin.y - 64) / (Layout.TopView.middleStateSize - Layout.TopView.topStateSize)
+    
+    transitionImageView.scalingView.progress = prog
+    
     menuButton.frame = CGRect(x: 8, y: 22, width: 32, height: 32)
   }
   
   @objc private func tapMenuButton() {
-    self.hideTOPCOL()
-    self.hideMIDCOLTXT()
-    self.hideSCALV()
-    self.showCELLV()
     if !menuIsOpen {
-      UIView.animate(withDuration: duration, animations: {
+      self.hideSCALV()
+      self.hideTOPCOL()
+      self.hideMIDCOLTXT()
+      self.showCELLV()
+      self.state = .vertical
+      UIView.animate(withDuration: 0.25, animations: {
         self.middleView.frame.origin.y = self.bounds.height
+        self.transitionImageView.scalingView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.middleView.frame.minY)
+        self.transitionImageView.setNeedsLayout()
+        self.transitionImageView.layoutIfNeeded()
         self.setNeedsLayout()
         self.layoutIfNeeded()
-        self.state = .vertical
       }) { (completed) in
-        if completed {
-          self.menuIsOpen = true
-        }
+        self.hideSCALV()
+        self.hideTOPCOL()
+        self.hideMIDCOLTXT()
+        self.showCELLV()
+        self.menuIsOpen = true
       }
     } else {
-      UIView.animate(withDuration: duration, animations: {
-        self.middleView.frame.origin.y = Layout.TopView.topStateSize
+      self.hideSCALV()
+      self.hideTOPCOL()
+      self.hideMIDCOLTXT()
+      self.showCELLV()
+      UIView.animate(withDuration: 0.25, animations: {
+        self.middleView.frame.origin.y = Layout.TopView.middleStateSize
+        self.transitionImageView.scalingView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.middleView.frame.minY)
+        self.transitionImageView.setNeedsLayout()
+        self.transitionImageView.layoutIfNeeded()
         self.setNeedsLayout()
         self.layoutIfNeeded()
       }) { (completed) in
-        if completed {
-          self.menuIsOpen = false
-          self.state = .horizontal
-        }
+        self.hideSCALV()
+        self.hideTOPCOL()
+        self.showMIDCOLTXT()
+        self.hideCELLV()
+        self.menuIsOpen = false
+        self.state = .horizontal
       }
     }
   }
@@ -205,39 +227,62 @@ extension NavigationToolbarView: UIScrollViewDelegate, AnimationTransitionViewDe
   
   func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
     updateIndex()
+    self.mainScrollview.isScrollEnabled = true
+    self.bottomView.scrollView.isScrollEnabled = true
   }
   
   func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
     updateIndex()
+    self.mainScrollview.isScrollEnabled = true
+    self.bottomView.scrollView.isScrollEnabled = true
+  }
+  
+  func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+    self.mainScrollview.isScrollEnabled = true
+    self.bottomView.scrollView.isScrollEnabled = true
+  }
+  
+  func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+    self.mainScrollview.isScrollEnabled = true
+    self.bottomView.scrollView.isScrollEnabled = true
+  }
+  
+  func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    self.mainScrollview.isScrollEnabled = true
+    self.bottomView.scrollView.isScrollEnabled = true
   }
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    
-    
     if self.mainScrollview.isTracking {
       bottomView.scrollView.contentOffset.x = self.mainScrollview.contentOffset.x
+      bottomView.scrollView.isScrollEnabled = false
       syncOffsets()
     }
     if bottomView.scrollView.isTracking {
       self.mainScrollview.contentOffset.x = bottomView.scrollView.contentOffset.x
+      self.mainScrollview.isScrollEnabled = false
       syncOffsets()
     }
     
     if self.mainScrollview.isDragging {
       bottomView.scrollView.contentOffset.x = self.mainScrollview.contentOffset.x
+      bottomView.scrollView.isScrollEnabled = false
       syncOffsets()
     }
     if bottomView.scrollView.isDragging {
       self.mainScrollview.contentOffset.x = bottomView.scrollView.contentOffset.x
+      self.mainScrollview.isScrollEnabled = false
       syncOffsets()
     }
     
     if self.mainScrollview.isDecelerating {
       bottomView.scrollView.contentOffset.x = self.mainScrollview.contentOffset.x
+      bottomView.scrollView.isScrollEnabled = false
       syncOffsets()
     }
     if bottomView.scrollView.isDecelerating {
       self.mainScrollview.contentOffset.x = bottomView.scrollView.contentOffset.x
+      self.mainScrollview.isScrollEnabled = false
       syncOffsets()
     }
   }
@@ -245,6 +290,7 @@ extension NavigationToolbarView: UIScrollViewDelegate, AnimationTransitionViewDe
   func setScrollOffset(offset: CGFloat) {
     self.mainScrollview.contentOffset.x = offset
     bottomView.scrollView.contentOffset.x = self.mainScrollview.contentOffset.x
+    bottomView.scrollView.isScrollEnabled = false
   }
   
   private func syncOffsets() {
@@ -295,283 +341,79 @@ extension NavigationToolbarView {
     let location = panRecognizer.location(in: self)
     
     switch panRecognizer.state {
-    case .changed:
-      UIView.animate(withDuration: duration, animations: {
-        self.middleView.frame = CGRect(x: 0, y: location.y - Layout.MidView.height / 2, width: self.bounds.width, height: Layout.MidView.height)
-        self.setNeedsLayout()
-        self.layoutIfNeeded()
-      }) { (completed) in
-        switch self.middleView.frame.origin.y {
-        case ..<0, 0..<64:
-          self.state = .horizontal
-          self.shouldShowSCALV = true
-          print("------------")
-          defer {
-            print("CHANGED-COMPLETED: pre top state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case 64:
-          self.state = .horizontal
-          self.shouldShowSCALV = true
-          self.showTOPCOL()
-          print("------------")
-          defer {
-            print("CHANGED-COMPLETED: top state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case 65..<Layout.TopView.middleStateSize:
-          self.shouldShowSCALV = true
-          self.state = .horizontal
-          self.showSCALV()
-          self.hideTOPCOL()
-          self.hideMIDCOLTXT()
-          self.hideCELLV()
-          self.printStates()
-          print("------------")
-          defer {
-            print("CHANGED-COMPLETED: pre mid state")
-            print("STATE: \(self.state)")
-            
-            print("------------")
-          }
-          break
-        case Layout.TopView.middleStateSize:
-          self.state = .horizontal
-          self.shouldShowSCALV = false
-          print("------------")
-          defer {
-            print("CHANGED-COMPLETED: mid state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case Layout.TopView.middleStateSize + 1..<Layout.TopView.middleStateSize + Layout.TopView.middleStateSize / 2:
-          self.state = .vertical
-          self.shouldShowSCALV = false
-          self.hideMIDCOLTXT()
-          self.hideTOPCOL()
-          self.hideSCALV()
-          self.showCELLV()
-          self.printStates()
-          print("------------")
-          defer {
-            print("CHANGED-COMPLETED: post mid state")
-            print("STATE: \(self.state)")
-            
-            print("------------")
-          }
-          break
-        case Layout.TopView.middleStateSize + 1 + Layout.TopView.middleStateSize / 2...self.bounds.height:
-          self.state = .vertical
-          self.shouldShowSCALV = false
-          self.hideMIDCOLTXT()
-          self.hideTOPCOL()
-          self.hideSCALV()
-          print("------------")
-          defer {
-            print("CHANGED-COMPLETED: bottom state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            
-            print("------------")
-          }
-          break
-        default:
-          break
-        }
+    case .began, .changed:
+      track = true
+      showSCALV()
+      middleView.frame.origin.y = location.y - 37.5
+      transitionImageView.scalingView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: middleView.frame.minY)
+      transitionImageView.setNeedsLayout()
+      transitionImageView.layoutIfNeeded()
+      setNeedsLayout()
+      layoutIfNeeded()
+      if 0...Layout.TopView.middleStateSize ~= location.y {
+        self.state = .horizontal
+      } else {
+        self.state = .vertical
+        self.hideSCALV()
+        self.hideTOPCOL()
+        self.hideMIDCOLTXT()
+        self.showCELLV()
+        self.mainScrollview.contentInset = UIEdgeInsets(top: 0, left: -(cellViews[currentIndex].frame.minX), bottom: 0, right: -1 * (self.mainScrollview.contentSize.width - ((cellViews.last?.frame.maxX)!)))
       }
       break
     case .possible, .ended, .cancelled, .failed:
-      UIView.animate(withDuration: duration, animations: {
-        switch self.middleView.frame.origin.y {
-        case ..<0, 0..<64:
-          self.middleView.frame = CGRect(x: 0, y: Layout.TopView.topStateSize, width: self.bounds.width, height: Layout.MidView.height)
-          self.state = .horizontal
-          print("------------")
-          defer {
-            print("ENDED-STARTED: pre zero state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case 64:
-          self.middleView.frame = CGRect(x: 0, y: Layout.TopView.topStateSize, width: self.bounds.width, height: Layout.MidView.height)
-          self.state = .horizontal
+      if 0...Layout.TopView.middleStateSize / 2 ~= location.y {
+        self.state = .horizontal
+        UIView.animate(withDuration: 0.25, animations: {
+          self.middleView.frame.origin.y = 64
+          self.transitionImageView.scalingView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.middleView.frame.minY)
+          self.transitionImageView.setNeedsLayout()
+          self.transitionImageView.layoutIfNeeded()
+          self.setNeedsLayout()
+          self.layoutIfNeeded()
+        }) { (completed) in
           self.hideSCALV()
-          print("------------")
-          defer {
-            print("ENDED-STARTED: top state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case 65..<Layout.TopView.middleStateSize / 2:
-          self.middleView.frame = CGRect(x: 0, y: Layout.TopView.topStateSize, width: self.bounds.width, height: Layout.MidView.height)
-          self.state = .horizontal
-          print("------------")
-          defer {
-            print("ENDED-STARTED: post top state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case Layout.TopView.middleStateSize / 2 + 1..<Layout.TopView.middleStateSize:
-          self.middleView.frame = CGRect(x: 0, y: Layout.TopView.middleStateSize, width: self.bounds.width, height: Layout.MidView.height)
-          self.state = .horizontal
-          print("------------")
-          defer {
-            print("ENDED-STARTED: pre mid state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case Layout.TopView.middleStateSize:
-          self.middleView.frame = CGRect(x: 0, y: Layout.TopView.middleStateSize, width: self.bounds.width, height: Layout.MidView.height)
-          self.state = .horizontal
-          print("------------")
-          defer {
-            print("ENDED-STARTED: mid state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          self.hideSCALV()
-          break
-        case Layout.TopView.middleStateSize + 1..<Layout.TopView.middleStateSize + Layout.TopView.middleStateSize / 2:
-          self.middleView.frame = CGRect(x: 0, y: Layout.TopView.middleStateSize, width: self.bounds.width, height: Layout.MidView.height)
-          self.state = .vertical
-          print("------------")
-          defer {
-            print("ENDED-STARTED: post mid state")
-            print("STATE: \(self.state)")
-            self.showCELLV()
-            self.printStates()
-            print("------------")
-          }
-          break
-        case Layout.TopView.middleStateSize + 1 + Layout.TopView.middleStateSize / 2...self.bounds.height:
-          self.middleView.frame = CGRect(x: 0, y: self.bounds.height, width: self.bounds.width, height: Layout.MidView.height)
-          self.state = .vertical
-          self.hideSCALV()
-          print("------------")
-          defer {
-            print("ENDED-STARTED: bottom state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        default:
-          break
-        }
-        self.setNeedsLayout()
-        self.layoutIfNeeded()
-      }) { (completed) in
-        switch self.middleView.frame.origin.y {
-        case ..<0, 0..<64:
-          self.state = .horizontal
-          print("------------")
-          defer {
-            print("ENDED-COMPLETED: pre zero state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case 64:
-          self.state = .horizontal
-          print("------------")
-          self.hideSCALV()
+          self.showTOPCOL()
+          self.hideMIDCOLTXT()
           self.hideCELLV()
-          defer {
-            print("ENDED-COMPLETED: top state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case 65..<Layout.TopView.middleStateSize / 2:
-          self.state = .horizontal
-          print("------------")
-          defer {
-            print("ENDED-COMPLETED: post top state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case Layout.TopView.middleStateSize / 2 + 1..<Layout.TopView.middleStateSize:
-          self.state = .horizontal
-          print("------------")
-          defer {
-            print("ENDED-COMPLETED: pre mid state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case Layout.TopView.middleStateSize:
-          self.state = .horizontal
-          print("------------")
+        }
+      } else if Layout.TopView.middleStateSize / 2 + 1...Layout.TopView.middleStateSize ~= location.y {
+        self.state = .horizontal
+        UIView.animate(withDuration: 0.25, animations: {
+          self.middleView.frame.origin.y = Layout.TopView.middleStateSize
+          self.transitionImageView.scalingView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.middleView.frame.minY)
+          self.transitionImageView.setNeedsLayout()
+          self.transitionImageView.layoutIfNeeded()
+          self.setNeedsLayout()
+          self.layoutIfNeeded()
+        }) { (completed) in
           self.hideSCALV()
           self.hideTOPCOL()
           self.showMIDCOLTXT()
           self.hideCELLV()
-          defer {
-            print("ENDED-COMPLETED: mid state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
+        }
+      } else if Layout.TopView.middleStateSize + 1...bounds.height ~= location.y && track {
+        self.state = .vertical
+        
+        self.hideSCALV()
+        self.hideTOPCOL()
+        self.hideMIDCOLTXT()
+        self.showCELLV()
+        UIView.animate(withDuration: 0.25, animations: {
+          self.middleView.frame.origin.y = self.bounds.height
+          self.transitionImageView.scalingView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.middleView.frame.minY)
+          self.transitionImageView.setNeedsLayout()
+          self.transitionImageView.layoutIfNeeded()
+          self.setNeedsLayout()
+          self.layoutIfNeeded()
+        }) { (completed) in
           self.hideSCALV()
           self.hideTOPCOL()
-          break
-        case Layout.TopView.middleStateSize + 1..<Layout.TopView.middleStateSize + Layout.TopView.middleStateSize / 2:
-          self.state = .vertical
-          print("------------")
-          defer {
-            print("ENDED-COMPLETED: post mid state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        case Layout.TopView.middleStateSize + 1 + Layout.TopView.middleStateSize / 2...self.bounds.height:
-          self.state = .vertical
-          print("------------")
-          defer {
-            print("ENDED-COMPLETED: bottom state")
-            print("STATE: \(self.state)")
-            self.printStates()
-            print("------------")
-          }
-          break
-        default:
-          break
-        }
-        self.setNeedsLayout()
-        self.layoutIfNeeded()
-        switch self.state {
-        case .horizontal:
-          self.mainScrollview.contentInset = UIEdgeInsets(top: 0, left: -((self.cellViews.first?.frame.minX)!), bottom: -((self.self.cellViews.last?.frame.maxY)!), right: -1 * (self.mainScrollview.contentSize.width - ((self.cellViews.last?.frame.maxX)!)))
-        case .vertical:
+          self.hideMIDCOLTXT()
+          self.showCELLV()
           self.mainScrollview.contentInset = UIEdgeInsets(top: 0, left: -(self.cellViews[self.currentIndex].frame.minX), bottom: 0, right: -1 * (self.mainScrollview.contentSize.width - ((self.cellViews.last?.frame.maxX)!)))
         }
       }
-      break
-    default:
-      break
     }
   }
   
@@ -602,9 +444,7 @@ extension NavigationToolbarView {
   
   private func makeFrames() -> [CGRect] {
     var frames: [CGRect] = []
-//    print("---------------------")
-//    print("MAKE FRAMES STATE: \(state)")
-//    print("---------------------")
+
     if state == .horizontal {
       for i in 0..<cellViews.count {
         let frame = CGRect(x: CGFloat(i) * self.bounds.width, y: 0, width: self.bounds.width, height: middleView.frame.minY)
@@ -683,7 +523,11 @@ extension NavigationToolbarView: CellViewDelegate {
         if completed {
           self.state = .horizontal
           self.mainScrollview.contentInset = UIEdgeInsets(top: 0, left: -((self.cellViews.first?.frame.minX)!), bottom: -((self.cellViews.last?.frame.maxY)!), right: -1 * (self.mainScrollview.contentSize.width - ((self.cellViews.last?.frame.maxX)!)))
-          self.processPan()
+          self.track = false
+          self.hideSCALV()
+          self.hideTOPCOL()
+          self.showMIDCOLTXT()
+          self.hideCELLV()
         }
       }
     }
@@ -696,39 +540,45 @@ extension NavigationToolbarView: CellViewDelegate {
 extension NavigationToolbarView {
   
   private func showSCALV() {
-//    if shouldShowSCALV {
-      self.transitionImageView.scalingView.isHidden = false
-//    }
+    self.transitionImageView.scalingView.isHidden = false
+    print("SCALV hidden: \(self.transitionImageView.scalingView.isHidden)")
   }
   
   private func hideSCALV() {
     self.transitionImageView.scalingView.isHidden = true
+    print("SCALV hidden: \(self.transitionImageView.scalingView.isHidden)")
   }
   
   private func showTOPCOL() {
     self.transitionImageView.collectionViewNavbar.isHidden = false
+    print("TOPCOL hidden: \(self.transitionImageView.collectionViewNavbar.isHidden)")
   }
   
   private func hideTOPCOL() {
     self.transitionImageView.collectionViewNavbar.isHidden = true
+    print("TOPCOL hidden: \(self.transitionImageView.collectionViewNavbar.isHidden)")
   }
   
   private func showMIDCOLTXT() {
     self.transitionImageView.collectionViewMidImage.isHidden = false
     self.transitionImageView.collectionViewMidText.isHidden = false
+    print("MIDCOL hidden: \(self.transitionImageView.collectionViewMidText.isHidden)")
   }
   
   private func hideMIDCOLTXT() {
     self.transitionImageView.collectionViewMidImage.isHidden = true
     self.transitionImageView.collectionViewMidText.isHidden = true
+    print("MIDCOL hidden: \(self.transitionImageView.collectionViewMidText.isHidden)")
   }
   
   private func showCELLV() {
     self.mainScrollview.isHidden = false
+    print("CELLV hidden: \(self.mainScrollview.isHidden)")
   }
   
   private func hideCELLV() {
     self.mainScrollview.isHidden = true
+    print("CELLV hidden: \(self.mainScrollview.isHidden)")
   }
   
   private func printStates() {
