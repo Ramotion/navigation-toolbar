@@ -237,6 +237,21 @@ extension NavigationToolbarView: UIScrollViewDelegate, AnimationTransitionViewDe
     self.bottomView.scrollView.isScrollEnabled = true
   }
   
+  func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+    self.mainScrollview.isScrollEnabled = true
+    self.bottomView.scrollView.isScrollEnabled = true
+  }
+  
+  func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+    self.mainScrollview.isScrollEnabled = true
+    self.bottomView.scrollView.isScrollEnabled = true
+  }
+  
+  func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    self.mainScrollview.isScrollEnabled = true
+    self.bottomView.scrollView.isScrollEnabled = true
+  }
+  
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     if self.mainScrollview.isTracking {
       bottomView.scrollView.contentOffset.x = self.mainScrollview.contentOffset.x
