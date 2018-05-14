@@ -12,6 +12,16 @@ class AnimationScalingView: UIView {
   private var leftLabel: UILabel = UILabel()
   private var rightLabel: UILabel = UILabel()
   
+  var progress: CGFloat = 0 {
+    didSet {
+//      print("SCALV PROGRESS: \(progress)")
+      UIView.animate(withDuration: 0.15) {
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+      }
+    }
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setup()
@@ -83,7 +93,7 @@ class AnimationScalingView: UIView {
     let w = bounds.width
     let half = bounds.width / 2
     
-    leftLabel.frame = CGRect(x: -1 * w * 0.21, y: 0, width: bounds.width / 2, height: bounds.height)
-    rightLabel.frame = CGRect(x: half + w * 0.21, y: 0, width: bounds.width / 2, height: bounds.height)
+    leftLabel.frame = CGRect(x: -1 * w * 0.21 - 200.0 * (1.0 - progress), y: 0, width: bounds.width / 2, height: bounds.height)
+    rightLabel.frame = CGRect(x: half + w * 0.21 + 200.0 * (1.0 - progress), y: 0, width: bounds.width / 2, height: bounds.height)
   }
 }
