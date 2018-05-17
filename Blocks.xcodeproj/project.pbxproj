@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		EE039E40209F442000B782E8 /* AnimationScalingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE039E3F209F442000B782E8 /* AnimationScalingView.swift */; };
 		EE3F86462097284A00CA5FFE /* TransitionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F86442097284A00CA5FFE /* TransitionCell.swift */; };
-		EE7716D62096887600154F46 /* AnimationTransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7716D52096887600154F46 /* AnimationTransitionView.swift */; };
+		EE7716D62096887600154F46 /* AnimationTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7716D52096887600154F46 /* AnimationTopView.swift */; };
 		EE7716D820968C1000154F46 /* AnimatedCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7716D720968C1000154F46 /* AnimatedCollectionViewLayout.swift */; };
 		EE7716DC20968C6F00154F46 /* Animators.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7716DB20968C6F00154F46 /* Animators.swift */; };
 		EE8070AC209257A3006E5081 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8070AB209257A3006E5081 /* Settings.swift */; };
@@ -30,7 +30,7 @@
 /* Begin PBXFileReference section */
 		EE039E3F209F442000B782E8 /* AnimationScalingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationScalingView.swift; sourceTree = "<group>"; };
 		EE3F86442097284A00CA5FFE /* TransitionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionCell.swift; sourceTree = "<group>"; };
-		EE7716D52096887600154F46 /* AnimationTransitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTransitionView.swift; sourceTree = "<group>"; };
+		EE7716D52096887600154F46 /* AnimationTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTopView.swift; sourceTree = "<group>"; };
 		EE7716D720968C1000154F46 /* AnimatedCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedCollectionViewLayout.swift; sourceTree = "<group>"; };
 		EE7716DB20968C6F00154F46 /* Animators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animators.swift; sourceTree = "<group>"; };
 		EE8070AB209257A3006E5081 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 				EEE22AA320892D280078D155 /* AppDelegate.swift */,
 				EEE22AB520892D560078D155 /* AnimationController.swift */,
 				EEE22AB720892D650078D155 /* NavigationToolbarView.swift */,
-				EE7716D52096887600154F46 /* AnimationTransitionView.swift */,
+				EE7716D52096887600154F46 /* AnimationTopView.swift */,
 				EE039E3F209F442000B782E8 /* AnimationScalingView.swift */,
 				EE870C4A20A040CE00077AB9 /* AnimationProgressButton.swift */,
 				EE3F86442097284A00CA5FFE /* TransitionCell.swift */,
@@ -192,7 +192,7 @@
 				EEB375632091E8DD00739E46 /* AnimationMiddleView.swift in Sources */,
 				EE870C4B20A040CE00077AB9 /* AnimationProgressButton.swift in Sources */,
 				EE3F86462097284A00CA5FFE /* TransitionCell.swift in Sources */,
-				EE7716D62096887600154F46 /* AnimationTransitionView.swift in Sources */,
+				EE7716D62096887600154F46 /* AnimationTopView.swift in Sources */,
 				EEB375682091EFE200739E46 /* DummyController.swift in Sources */,
 				EEB3756A2091EFEF00739E46 /* DummyCell.swift in Sources */,
 				EE8070AC209257A3006E5081 /* Settings.swift in Sources */,
