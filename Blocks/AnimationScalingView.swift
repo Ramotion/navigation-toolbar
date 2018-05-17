@@ -14,7 +14,6 @@ class AnimationScalingView: UIView {
   
   var progress: CGFloat = 0 {
     didSet {
-//      print("SCALV PROGRESS: \(progress)")
       UIView.animate(withDuration: 0.15) {
         self.setNeedsLayout()
         self.layoutIfNeeded()

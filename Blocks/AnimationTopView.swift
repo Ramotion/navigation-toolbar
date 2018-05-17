@@ -4,13 +4,43 @@
 
 import UIKit
 
-protocol AnimationTransitionViewDelegate {
+protocol AnimationTopViewDelegate {
   func setScrollOffset(offset: CGFloat)
 }
 
-class AnimationTransitionView: UIView {
+class AnimationTopView: UIView {
   
-  var delegate: AnimationTransitionViewDelegate?
+  enum State {
+    case navbarSize
+    case middleSize
+    case bottomSize
+  }
+  
+  var state: State = .navbarSize {
+    didSet {
+      switch state {
+      case .navbarSize:
+        collectionViewNavbar.isHidden   = false
+        collectionViewMidImage.isHidden = true
+        collectionViewMidText.isHidden  = true
+        scalingView.isHidden = true
+        break
+      case .middleSize:
+        collectionViewNavbar.isHidden   = true
+        collectionViewMidImage.isHidden = false
+        collectionViewMidText.isHidden  = false
+        break
+      case .bottomSize:
+        collectionViewNavbar.isHidden   = true
+        collectionViewMidImage.isHidden = true
+        collectionViewMidText.isHidden  = true
+        scalingView.isHidden = true
+        break
+      }
+    }
+  }
+  
+  var delegate: AnimationTopViewDelegate?
   
   var collectionViewNavbar   : UICollectionView!
   var collectionViewMidImage : UICollectionView!
@@ -19,7 +49,6 @@ class AnimationTransitionView: UIView {
   var scalingView: AnimationScalingView = AnimationScalingView()
   
   var index: Int = 0
-  var currentHeight: CGFloat = 64
   
   private var direction: UICollectionViewScrollDirection = .horizontal
   
@@ -88,7 +117,6 @@ class AnimationTransitionView: UIView {
     collectionViewNavbar.frame   = CGRect(x : 0, y : 0, width : w, height : Layout.TopView.topStateSize)
     collectionViewMidImage.frame = CGRect(x : 0, y : 0, width : w, height : Layout.TopView.middleStateSize)
     collectionViewMidText.frame  = CGRect(x : 0, y : 0, width : w, height : Layout.TopView.middleStateSize)
-//    scalingView.frame            = CGRect(x : 0, y : 0, width : w, height : currentHeight)
   }
   
   private func setLayout() {
@@ -141,7 +169,7 @@ class AnimationTransitionView: UIView {
   
 }
 
-extension AnimationTransitionView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension AnimationTopView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return images.count
@@ -190,7 +218,7 @@ extension AnimationTransitionView: UICollectionViewDelegate, UICollectionViewDat
   
 }
 
-extension AnimationTransitionView: UIScrollViewDelegate {
+extension AnimationTopView: UIScrollViewDelegate {
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     delegate?.setScrollOffset(offset: scrollView.contentOffset.x)
