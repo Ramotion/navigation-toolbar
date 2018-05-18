@@ -17,6 +17,7 @@ public struct Layout {
   
   struct MidView {
     static let height : CGFloat = 65.5
+    static let half   : CGFloat = height / 2
   }
   
 }

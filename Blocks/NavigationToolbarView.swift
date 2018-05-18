@@ -164,7 +164,7 @@ class NavigationToolbarView: UIView {
       setScrollOffset()
     }
     
-    let prog = (middleView.frame.origin.y - 64) / (Layout.TopView.middleStateSize - Layout.TopView.topStateSize)
+    let prog = (middleView.frame.origin.y - Layout.TopView.topStateSize) / (Layout.TopView.middleStateSize - Layout.TopView.topStateSize)
     
     topView.scalingView.progress = prog
     
@@ -182,6 +182,7 @@ class NavigationToolbarView: UIView {
         self.setNeedsLayout()
         self.layoutIfNeeded()
       }) { (completed) in
+        self.mainScrollview.contentInset = UIEdgeInsets(top: 0, left: -(self.cellViews[self.currentIndex].frame.minX), bottom: 0, right: -1 * (self.mainScrollview.contentSize.width - ((self.cellViews.last?.frame.maxX)!)))
         self.menuIsOpen = true
       }
     } else {
@@ -322,35 +323,36 @@ extension NavigationToolbarView {
     switch panRecognizer.state {
     case .began, .changed:
       track = true
-      self.middleView.frame.origin.y = location.y - 37.5
+      self.middleView.frame.origin.y = location.y - Layout.MidView.half
       self.topView.scalingView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.middleView.frame.minY)
+      
       self.topView.setNeedsLayout()
       self.topView.layoutIfNeeded()
       self.setNeedsLayout()
       self.layoutIfNeeded()
       
-      if 0...Layout.TopView.topStateSize ~= location.y - 37.5 {
+      if 0...Layout.TopView.topStateSize ~= location.y - Layout.MidView.half {
         self.state = .horizontal
         self.topView.state = .navbarSize
       }
-      if Layout.TopView.topStateSize + 1...Layout.TopView.middleStateSize ~= location.y - 37.5 {
+      if Layout.TopView.topStateSize + 1...Layout.TopView.middleStateSize ~= location.y - Layout.MidView.half {
         self.state = .horizontal
         self.topView.state = .middleSize
       } else {
         self.state = .vertical
         self.mainScrollview.contentInset = UIEdgeInsets(top: 0, left: -(cellViews[currentIndex].frame.minX), bottom: 0, right: -1 * (self.mainScrollview.contentSize.width - ((cellViews.last?.frame.maxX)!)))
       }
-      if Layout.TopView.middleStateSize + 1...bounds.height ~= location.y - 37.5 {
+      if Layout.TopView.middleStateSize + 1...bounds.height ~= location.y - Layout.MidView.half {
         self.topView.state = .bottomSize
       }
       break
     case .possible, .ended, .cancelled, .failed:
-      if 0...Layout.TopView.topStateSize ~= location.y - 37.5 {
+      if 0...Layout.TopView.topStateSize ~= location.y - Layout.MidView.half {
         self.state = .horizontal
         self.topView.scalingView.isHidden = false
         self.topView.state = .navbarSize
         UIView.animate(withDuration: duration, animations: {
-          self.middleView.frame.origin.y = 64
+          self.middleView.frame.origin.y = Layout.TopView.topStateSize
           self.topView.scalingView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.middleView.frame.minY)
           self.topView.setNeedsLayout()
           self.topView.layoutIfNeeded()
@@ -364,7 +366,7 @@ extension NavigationToolbarView {
         self.state = .horizontal
         self.topView.scalingView.isHidden = false
         UIView.animate(withDuration: duration, animations: {
-          self.middleView.frame.origin.y = 64
+          self.middleView.frame.origin.y = Layout.TopView.topStateSize
           self.topView.scalingView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.middleView.frame.minY)
           self.topView.setNeedsLayout()
           self.topView.layoutIfNeeded()
@@ -390,6 +392,7 @@ extension NavigationToolbarView {
       } else if Layout.TopView.middleStateSize + 1...bounds.height ~= location.y && track {
         self.state = .vertical
         self.topView.state = .bottomSize
+        self.menuButton.animate(progress: 1.0, duration: duration)
         UIView.animate(withDuration: duration, animations: {
           self.middleView.frame.origin.y = self.bounds.height
           self.topView.scalingView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.middleView.frame.minY)
@@ -414,7 +417,7 @@ extension NavigationToolbarView {
       let view = CellView()
       view.delegate = self
       
-      let gradient    : UIImage = UIImage.imageWithGradient(from    : UIColor.red, to    : UIColor.blue)
+      let gradient    : UIImage = UIImage.imageWithGradient(from: screens[i].colorStart, to: screens[i].colorEnd)
       let mergedImage : UIImage = UIImage.mergeImages(bottom : gradient, top : screens[i].image)
       
       view.setData(data: (text: screens[i].title, image: mergedImage), index: i)
@@ -425,7 +428,7 @@ extension NavigationToolbarView {
     for view in cellViews {
       mainScrollview.addSubview(view)
     }
-    let gradient    : UIImage = UIImage.imageWithGradient(from    : UIColor.red, to    : UIColor.blue)
+    let gradient    : UIImage = UIImage.imageWithGradient(from: screens[currentIndex].colorStart, to: screens[currentIndex].colorEnd)
     let mergedImage : UIImage = UIImage.mergeImages(bottom : gradient, top : screens.first!.image)
     topView.scalingView.setData(title: (screens.first?.title)!, image: mergedImage, left: "", right: screens[1].title)
   }
