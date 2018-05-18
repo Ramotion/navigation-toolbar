@@ -32,7 +32,7 @@ extension UIImage {
   
   static func imageWithGradient(from beginColor: UIColor, to endColor: UIColor) -> UIImage {
     let layer = CAGradientLayer()
-    layer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height / 2 - 37.5)
+    layer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height / 2 - Layout.MidView.half)
     layer.colors = [beginColor.cgColor, endColor.cgColor]
     layer.startPoint = CGPoint(x: 0, y: 0.5)
     layer.endPoint = CGPoint(x: 1, y: 0.5)
@@ -47,7 +47,7 @@ extension UIImage {
     let bottomImage = bottom
     let topImage = top
     
-    let size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2 - 37.5)
+    let size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2 - Layout.MidView.half)
     UIGraphicsBeginImageContext(size)
     
     let areaSize = CGRect(x: 0, y: 0, width: size.width, height: size.height)

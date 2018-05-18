@@ -79,6 +79,7 @@ private class ProgressView: UIView {
   }
   
   public func animate(progress: CGFloat, duration: TimeInterval) {
+    UIGraphicsBeginImageContext(self.bounds.size)
     let toPath = self.path(progress: progress).cgPath
     let animation = CABasicAnimation()
     animation.duration = duration
@@ -112,8 +113,8 @@ private class ProgressView: UIView {
     let topYmodifier = progress * 10
     let botYmodifier = progress * 10
     
-    let startTop  = CGPoint(x: 0, y: 0 + topYmodifier)
-    let finishTop = CGPoint(x: 28 - topXmodifier * 0.66, y: 0)
+    let startTop  = CGPoint(x: 0, y: 1.5 + topYmodifier)
+    let finishTop = CGPoint(x: 28 - topXmodifier * 0.66, y: 1.5)
     
     path.move(to: startTop)
     path.addLine(to: finishTop)
@@ -124,8 +125,8 @@ private class ProgressView: UIView {
     path.move(to: startMid)
     path.addLine(to: finishMid)
     
-    let startBot  = CGPoint(x: 0, y: 22 - botYmodifier)
-    let finisBot  = CGPoint(x: 13 - botXmodifier * 0.27, y: 22)
+    let startBot  = CGPoint(x: 0, y: 20.5 - botYmodifier)
+    let finisBot  = CGPoint(x: 13 - botXmodifier * 0.27, y: 20.5)
     
     path.move(to: startBot)
     path.addLine(to: finisBot)
