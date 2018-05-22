@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RiZ-uf-a2z">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="jYK-cm-C4v">
+            <objects>
+                <viewController id="RiZ-uf-a2z" customClass="ViewController" customModule="NavigationToolbar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="seO-XN-N3B">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WbO-yd-r5C" customClass="NavigationView" customModule="NavigationToolbar" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="GIg-u4-j5H" firstAttribute="bottom" secondItem="WbO-yd-r5C" secondAttribute="bottom" id="XNS-tu-lwr"/>
+                            <constraint firstItem="WbO-yd-r5C" firstAttribute="top" secondItem="GIg-u4-j5H" secondAttribute="top" id="eZj-gX-3G7"/>
+                            <constraint firstItem="WbO-yd-r5C" firstAttribute="leading" secondItem="GIg-u4-j5H" secondAttribute="leading" id="jMC-cl-LiQ"/>
+                            <constraint firstItem="GIg-u4-j5H" firstAttribute="trailing" secondItem="WbO-yd-r5C" secondAttribute="trailing" id="om7-H8-pAQ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="GIg-u4-j5H"/>
+                    </view>
+                    <connections>
+                        <outlet property="navigationView" destination="WbO-yd-r5C" id="4n0-nD-kYY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mJL-PR-Uct" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-65" y="172"/>
+        </scene>
+    </scenes>
+</document>
