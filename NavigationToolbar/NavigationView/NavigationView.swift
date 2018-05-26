@@ -30,7 +30,7 @@ class NavigationView: UIView {
     didSet {
       topView.currentIndex = currentIndex
       fullscreenView.currentIndex = currentIndex
-//      bottomView.currentIndex = currentIndex
+      bottomView.currentIndex = currentIndex
     }
   }
   
@@ -55,7 +55,6 @@ class NavigationView: UIView {
     backGroundImageView.image = UIImage(named: "background")
     
     topView.backgroundColor    = .clear
-    middleView.backgroundColor = .green
     bottomView.backgroundColor = .blue
     
     fullscreenView.delegate = self
@@ -66,8 +65,8 @@ class NavigationView: UIView {
     addSubview(backGroundImageView)
     addSubview(fullscreenView)
     addSubview(topView)
-    addSubview(middleView)
     addSubview(bottomView)
+    addSubview(middleView)
     addSubview(menuButton)
     
     panRecognizer = PanDirectionGestureRecognizer(direction: .vertical, target: self, action: #selector(processPan))
@@ -109,6 +108,7 @@ class NavigationView: UIView {
     
     topView.setData(titles: titles, images: images)
     fullscreenView.setData(titles: titles, images: images)
+    bottomView.setData(views: views)
   }
   
   @objc private func tapMenuButton() {
@@ -156,37 +156,30 @@ class NavigationView: UIView {
 extension NavigationView {
   
   @objc private func processPan() {
-    let velocity = panRecognizer.velocity(in: self)
+    let touchLocation = panRecognizer.location(in: self)
+    let translation   = panRecognizer.translation(in: self)
+    let velocity      = panRecognizer.velocity(in: self)
+    
     var currentDirection: Int = 0
     
-    if velocity.x > 0 {
-      print("panning right")
-      currentDirection = 1
-    } else {
-      print("panning left")
-      currentDirection = 2
-    }
     if velocity.y > 0 {
       print("panning bottom")
-      currentDirection = 3
+      currentDirection = 2
     } else {
       print("panning top")
-      currentDirection = 4
+      currentDirection = 1
     }
     
-    let touchLocationY = panRecognizer.location(in: self).y
-    
-    if Settings.Sizes.middleSize...bounds.height ~= touchLocationY && middleOriginY == Settings.Sizes.middleSize {
+    if bottomView.shouldBlockPan && currentDirection == 2 {
       return
     }
     
     latestDirection = currentDirection
     
-    let translation = panRecognizer.translation(in: self)
-    
     switch panRecognizer.state {
     case .began, .changed:
       middleOriginY = middleView.frame.origin.y + translation.y
+      if middleOriginY < Settings.Sizes.navbarSize { middleOriginY = Settings.Sizes.navbarSize }
       if middleOriginY < Settings.Sizes.navbarSize { middleOriginY = Settings.Sizes.navbarSize }
       
       if Settings.Sizes.navbarSize == middleOriginY {

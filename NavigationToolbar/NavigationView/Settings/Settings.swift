@@ -12,7 +12,7 @@ import UIKit
 struct Settings {
   
   struct Sizes {
-    static let navbarSize     : CGFloat = 64
+    static let navbarSize     : CGFloat = UIScreen.main.nativeBounds.height == 2436 ? 88 : 64
     static let middleSize     : CGFloat = UIScreen.main.bounds.height / 2 - middleViewSize / 2
     static let fullSize       : CGFloat = UIScreen.main.bounds.height
     static let middleViewSize : CGFloat = 65.5

@@ -33,7 +33,6 @@ public class Button: UIButton {
   public func setProgress(_ aProgress: CGFloat) {
     self.progress = min(max(aProgress, 0.0), 1.0)
     self.view.setProgress(self.progress)
-    print("BUTTON PROGRESS \(aProgress)")
   }
   
   public override func setTitle(_ title: String?, for state: UIControlState) {

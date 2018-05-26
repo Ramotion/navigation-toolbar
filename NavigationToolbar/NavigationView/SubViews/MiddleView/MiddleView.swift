@@ -21,7 +21,14 @@ class MiddleView: UIView {
   }
   
   private func setup() {
+    backgroundColor = .white
     
+    layer.shadowColor   = UIColor.black.cgColor
+    layer.shadowRadius  = 10.0
+    layer.shadowOpacity = 0.1
+    layer.shadowOffset  = CGSize(width : 0, height : 0)
+    layer.masksToBounds = false
+    clipsToBounds       = false
   }
 
 }

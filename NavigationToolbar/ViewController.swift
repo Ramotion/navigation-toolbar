@@ -39,7 +39,6 @@ class ViewController: UIViewController {
     let obj14 = ScreenObject(title: "PROCRASTINATION", startColor: UIColor.init(HEX: "FAD7A1"), endColor: UIColor.init(HEX: "E96D71"), image: UIImage(named : "image14")!, controller: DummyController())
     let obj15 = ScreenObject(title: "WEALTH", startColor: UIColor.init(HEX: "FFD26F"), endColor: UIColor.init(HEX: "3677FF"), image: UIImage(named : "image15")!, controller: DummyController())
 
-    
     return [obj01,
             obj02,
             obj03,
