@@ -117,6 +117,7 @@ class NavigationView: UIView {
       self.panRecognizer.isEnabled = false
       fullscreenView.state = .vertical
       topView.hideSizingView()
+      topView.isHidden = true
       topView.toggleBottomStateViews()
       self.menuButton.animate(progress: 1.0, duration: Settings.animationsDuration)
       UIView.animate(withDuration: Settings.animationsDuration, animations: {
