@@ -17,6 +17,7 @@ class SizingView: UIView {
   
   var progress: CGFloat = 0 {
     didSet {
+      print(progress)
       self.setNeedsLayout()
       self.layoutIfNeeded()
     }
@@ -62,7 +63,12 @@ class SizingView: UIView {
     super.layoutSubviews()
     
     imageView.frame = CGRect(x: -1 * Settings.imageCrossOffset, y: 0, width: bounds.width + 2 * Settings.imageCrossOffset, height: bounds.height)
-    label.frame      = bounds
+    
+    if Settings.Sizes.isX {
+      label.frame = CGRect(x: 0, y: 32 - 32 * progress, width: bounds.width, height: bounds.height - 32 + 32 * progress)
+    } else {
+      label.frame = CGRect(x: 0, y: 20 - 20 * progress, width: bounds.width, height: bounds.height - 20 + 20 * progress)
+    }
     
     let half = bounds.width / 2
     

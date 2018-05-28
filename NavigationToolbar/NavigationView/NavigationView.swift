@@ -25,7 +25,6 @@ class NavigationView: UIView {
   
   private var menuIsOpen          : Bool            = false
   
-  private var latestDirection : Int = 0
   var currentIndex            : Int = 0 {
     didSet {
       topView.currentIndex = currentIndex
@@ -68,6 +67,8 @@ class NavigationView: UIView {
     addSubview(bottomView)
     addSubview(middleView)
     addSubview(menuButton)
+//    menuButton.backgroundColor = .red
+    
     
     panRecognizer = PanDirectionGestureRecognizer(direction: .vertical, target: self, action: #selector(processPan))
     panRecognizer.delegate = self
@@ -92,7 +93,11 @@ class NavigationView: UIView {
       fullscreenView.setScrollOffset()
     }
     
-    menuButton.frame = CGRect(x: 8, y: 22, width: 32, height: 32)
+    if Settings.Sizes.isX {
+      menuButton.frame = CGRect(x: 16, y: 44, width: 32, height: 32)
+    } else {
+      menuButton.frame = CGRect(x: 16, y: 26, width: 32, height: 32)
+    }
   }
   
   func setData(screens: [ScreenObject]) {
@@ -164,87 +169,86 @@ extension NavigationView {
     var currentDirection: Int = 0
     
     if velocity.y > 0 {
-      print("panning bottom")
+//      print("panning bottom")
       currentDirection = 2
     } else {
-      print("panning top")
+//      print("panning top")
       currentDirection = 1
     }
     
-    if bottomView.shouldBlockPan && currentDirection == 2 {
-      return
-    }
-    
-    latestDirection = currentDirection
-    
-    switch panRecognizer.state {
-    case .began, .changed:
-      middleOriginY = middleView.frame.origin.y + translation.y
-      if middleOriginY < Settings.Sizes.navbarSize { middleOriginY = Settings.Sizes.navbarSize }
-      if middleOriginY < Settings.Sizes.navbarSize { middleOriginY = Settings.Sizes.navbarSize }
-      
-      if Settings.Sizes.navbarSize == middleOriginY {
-        topView.isHidden = false
-        topView.hideSizingView()
-        fullscreenView.state = .horizontal
-        fullscreenView.updateHorizontalScrollInsets()
-      } else if Settings.Sizes.navbarSize + 1..<Settings.Sizes.middleSize ~= middleOriginY {
-        topView.isHidden = false
-        topView.showSizingView()
-        fullscreenView.state = .horizontal
-        fullscreenView.updateHorizontalScrollInsets()
-      } else if Settings.Sizes.middleSize == middleOriginY {
-        topView.isHidden = false
-        topView.hideSizingView()
-        fullscreenView.state = .vertical
-        fullscreenView.updateVerticalScrollInsets()
-      } else if Settings.Sizes.middleSize + 1..<bounds.width ~= middleOriginY {
-        topView.isHidden = true
-        fullscreenView.state = .vertical
-        fullscreenView.updateVerticalScrollInsets()
+    if !(bottomView.shouldBlockPan && currentDirection == 2) {
+//    if true {
+      switch panRecognizer.state {
+      case .began, .changed:
+        middleOriginY = middleView.frame.origin.y + translation.y
+        if middleOriginY < Settings.Sizes.navbarSize { middleOriginY = Settings.Sizes.navbarSize }
+        
+        if Settings.Sizes.navbarSize == middleOriginY {
+          topView.isHidden = false
+          topView.hideSizingView()
+          fullscreenView.state = .horizontal
+          fullscreenView.updateHorizontalScrollInsets()
+        } else if Settings.Sizes.navbarSize + 1..<Settings.Sizes.middleSize ~= middleOriginY {
+          topView.isHidden = false
+          topView.showSizingView()
+          fullscreenView.state = .horizontal
+          fullscreenView.updateHorizontalScrollInsets()
+        } else if Settings.Sizes.middleSize == middleOriginY {
+          topView.isHidden = false
+          topView.hideSizingView()
+          fullscreenView.state = .vertical
+          fullscreenView.updateVerticalScrollInsets()
+        } else if Settings.Sizes.middleSize + 1..<bounds.height ~= middleOriginY {
+          topView.isHidden = true
+          topView.hideSizingView()
+          fullscreenView.state = .vertical
+          fullscreenView.updateVerticalScrollInsets()
+        }
+        
+      case .possible, .ended, .cancelled, .failed:
+        if 0...Settings.Sizes.middleSize / 2 ~= middleOriginY {
+          UIView.animate(withDuration: Settings.animationsDuration, animations: {
+            self.middleOriginY = Settings.Sizes.navbarSize
+            self.topView.setSizingViewProgress(progress: 0.0)
+          }) { _ in
+            self.topView.hideSizingView()
+            self.topView.isHidden = false
+            self.topView.toggleTopStateViews()
+            self.fullscreenView.updateHorizontalScrollInsets()
+          }
+        } else if Settings.Sizes.middleSize / 2 + 1...Settings.Sizes.middleSize ~= middleOriginY {
+          UIView.animate(withDuration: Settings.animationsDuration, animations: {
+            self.middleOriginY = Settings.Sizes.middleSize
+            self.topView.setSizingViewProgress(progress: 1.0)
+          }) { _ in
+            self.topView.hideSizingView()
+            self.topView.isHidden = false
+            self.topView.toggleMiddleStateViews()
+            self.fullscreenView.updateHorizontalScrollInsets()
+          }
+        } else if Settings.Sizes.middleSize + 1...bounds.height / 4 * 3 ~= middleOriginY {
+          UIView.animate(withDuration: Settings.animationsDuration, animations: {
+            self.middleOriginY = Settings.Sizes.middleSize
+          }) { _ in
+            self.topView.hideSizingView()
+            self.topView.isHidden = false
+            self.topView.toggleMiddleStateViews()
+            self.fullscreenView.updateVerticalScrollInsets()
+          }
+        } else if bounds.height / 4 * 3 + 1...bounds.height ~= middleOriginY {
+          UIView.animate(withDuration: Settings.animationsDuration, animations: {
+            self.middleOriginY = self.bounds.height
+          }) { _ in
+            self.topView.hideSizingView()
+            self.fullscreenView.updateVerticalScrollInsets()
+            self.panRecognizer.isEnabled = false
+            self.menuIsOpen = true
+          }
+        }
+        
       }
-      
-    case .possible, .ended, .cancelled, .failed:
-      if 0...Settings.Sizes.middleSize / 2 ~= middleOriginY {
-        UIView.animate(withDuration: Settings.animationsDuration, animations: {
-          self.middleOriginY = Settings.Sizes.navbarSize
-        }) { _ in
-          self.topView.hideSizingView()
-          self.topView.isHidden = false
-          self.topView.toggleTopStateViews()
-          self.fullscreenView.updateHorizontalScrollInsets()
-        }
-      } else if Settings.Sizes.middleSize / 2 + 1...Settings.Sizes.middleSize ~= middleOriginY {
-        UIView.animate(withDuration: Settings.animationsDuration, animations: {
-          self.middleOriginY = Settings.Sizes.middleSize
-        }) { _ in
-          self.topView.hideSizingView()
-          self.topView.isHidden = false
-          self.topView.toggleMiddleStateViews()
-          self.fullscreenView.updateHorizontalScrollInsets()
-        }
-      } else if Settings.Sizes.middleSize + 1...bounds.height / 4 * 3 ~= middleOriginY {
-        UIView.animate(withDuration: Settings.animationsDuration, animations: {
-          self.middleOriginY = Settings.Sizes.middleSize
-        }) { _ in
-          self.topView.hideSizingView()
-          self.topView.isHidden = false
-          self.topView.toggleMiddleStateViews()
-          self.fullscreenView.updateVerticalScrollInsets()
-        }
-      } else if bounds.height / 4 * 3 + 1...bounds.height ~= middleOriginY {
-        UIView.animate(withDuration: Settings.animationsDuration, animations: {
-          self.middleOriginY = self.bounds.height
-        }) { _ in
-          self.topView.hideSizingView()
-          self.fullscreenView.updateVerticalScrollInsets()
-          self.panRecognizer.isEnabled = false
-          self.menuIsOpen = true
-        }
-      }
-      
+      panRecognizer.setTranslation(CGPoint.zero, in: self)
     }
-    panRecognizer.setTranslation(CGPoint.zero, in: self)
   }
   
 }
@@ -262,7 +266,7 @@ extension NavigationView: FulllscreenViewDelegate {
   
   func didTapCell(index: Int) {
     self.menuIsOpen = false
-    print("tap cell")
+//    print("tap cell")
     currentIndex = index
     topView.updateOffsets()
     panRecognizer.isEnabled = true

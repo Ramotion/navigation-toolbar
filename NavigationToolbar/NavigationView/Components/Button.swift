@@ -52,8 +52,8 @@ public class Button: UIButton {
   }
   
   private func setup() {
-    self.view.isUserInteractionEnabled = false
-    self.addSubview(self.view)
+    view.isUserInteractionEnabled = false
+    addSubview(view)
   }
 }
 

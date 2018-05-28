@@ -73,16 +73,10 @@ class BottomView: UIView {
     var i = 0
     for view in allSubviews {
       if view.contentSize.width == bounds.width {
-        print("===========")
-        print(i)
-        print(view.contentSize)
-        print(view.frame.origin)
         let frame = (view.convert(view.frame, to: self))
-        print(frame)
         if frame.origin.x == 0 {
           return view
         }
-        print("-----------")
         i += 1
       }
     }
