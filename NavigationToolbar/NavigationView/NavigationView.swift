@@ -157,7 +157,7 @@ class NavigationView: UIView {
 extension NavigationView {
   
   @objc private func processPan() {
-    let touchLocation = panRecognizer.location(in: self)
+//    let touchLocation = panRecognizer.location(in: self)
     let translation   = panRecognizer.translation(in: self)
     let velocity      = panRecognizer.velocity(in: self)
     

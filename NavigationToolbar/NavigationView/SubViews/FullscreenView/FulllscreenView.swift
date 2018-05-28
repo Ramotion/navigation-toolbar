@@ -49,7 +49,7 @@ class FulllscreenView: UIView {
   }
   
   private func setup() {
-    backgroundColor = UIColor.gray
+    backgroundColor = UIColor.clear
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.showsVerticalScrollIndicator   = false
     
