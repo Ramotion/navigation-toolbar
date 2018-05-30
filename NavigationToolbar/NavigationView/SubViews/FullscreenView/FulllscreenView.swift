@@ -24,6 +24,9 @@ class FulllscreenView: UIView {
   
   var progress: CGFloat = 0 {
     didSet {
+      print("FS PROG")
+      print(progress)
+      
       setNeedsLayout()
       layoutIfNeeded()
     }
@@ -52,6 +55,7 @@ class FulllscreenView: UIView {
     backgroundColor = UIColor.clear
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.showsVerticalScrollIndicator   = false
+    scrollView.alwaysBounceHorizontal = false
     
     addSubview(scrollView)
   }

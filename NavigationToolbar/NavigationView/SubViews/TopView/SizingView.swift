@@ -17,7 +17,6 @@ class SizingView: UIView {
   
   var progress: CGFloat = 0 {
     didSet {
-      print(progress)
       self.setNeedsLayout()
       self.layoutIfNeeded()
     }

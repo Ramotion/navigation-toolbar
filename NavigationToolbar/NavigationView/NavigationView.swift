@@ -67,8 +67,6 @@ class NavigationView: UIView {
     addSubview(bottomView)
     addSubview(middleView)
     addSubview(menuButton)
-//    menuButton.backgroundColor = .red
-    
     
     panRecognizer = PanDirectionGestureRecognizer(direction: .vertical, target: self, action: #selector(processPan))
     panRecognizer.delegate = self
@@ -87,6 +85,7 @@ class NavigationView: UIView {
     fullscreenView.frame = bounds
     
     fullscreenView.progress = getNormalizedProgress()
+    
     topView.setSizingViewProgress(progress: (middleView.frame.origin.y - Settings.Sizes.navbarSize) / (Settings.Sizes.middleSize - Settings.Sizes.navbarSize))
     
     if fullscreenView.state == .vertical {
@@ -162,22 +161,33 @@ class NavigationView: UIView {
 extension NavigationView {
   
   @objc private func processPan() {
-//    let touchLocation = panRecognizer.location(in: self)
+    var canPan: Bool = false
+    
+    let controlRect: CGRect = CGRect(x: 0, y: 0, width: bounds.width, height: middleView.frame.maxY)
+    
+    let touchLocation = panRecognizer.location(in: self)
     let translation   = panRecognizer.translation(in: self)
     let velocity      = panRecognizer.velocity(in: self)
     
     var currentDirection: Int = 0
     
     if velocity.y > 0 {
-//      print("panning bottom")
+      //      print("panning bottom")
       currentDirection = 2
     } else {
-//      print("panning top")
+      //      print("panning top")
       currentDirection = 1
     }
     
-    if !(bottomView.shouldBlockPan && currentDirection == 2) {
-//    if true {
+    if controlRect.contains(touchLocation) && middleOriginY < bounds.height {
+      canPan = true
+    } else if currentDirection == 2 && !bottomView.shouldBlockPan {
+      canPan = true
+    } else if currentDirection == 1 && middleOriginY < bounds.height {
+      canPan = true
+    }
+    
+    if canPan {
       switch panRecognizer.state {
       case .began, .changed:
         middleOriginY = middleView.frame.origin.y + translation.y
@@ -198,11 +208,13 @@ extension NavigationView {
           topView.hideSizingView()
           fullscreenView.state = .vertical
           fullscreenView.updateVerticalScrollInsets()
-        } else if Settings.Sizes.middleSize + 1..<bounds.height ~= middleOriginY {
+        } else if Settings.Sizes.middleSize + 1..<bounds.height * 2 ~= middleOriginY {
           topView.isHidden = true
           topView.hideSizingView()
           fullscreenView.state = .vertical
           fullscreenView.updateVerticalScrollInsets()
+        } else if middleOriginY > bounds.height {
+          panRecognizer.isEnabled = false
         }
         
       case .possible, .ended, .cancelled, .failed:
@@ -295,6 +307,9 @@ extension NavigationView {
       menuButton.setProgress((middleView.frame.minY - Settings.Sizes.middleSize) / diff > 1.0 ? 1.0 : (middleView.frame.minY - Settings.Sizes.middleSize) / diff)
       
       return (middleView.frame.minY - Settings.Sizes.middleSize) / diff > 1.0 ? 1.0 : (middleView.frame.minY - Settings.Sizes.middleSize) / diff
+    }
+    if middleView.frame.origin.y > bounds.height {
+      return 1.0
     }
     
     return 0.0
