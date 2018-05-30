@@ -24,11 +24,11 @@ class Label: UILabel {
     clipsToBounds       = false
     textColor           = .white
     font                = UIFont.systemFont(ofSize : 23)
-    layer.shadowColor   = UIColor.black.cgColor
-    layer.shadowRadius  = 2.0
-    layer.shadowOpacity = 1.0
-    layer.shadowOffset  = CGSize(width : 2, height : 2)
-    layer.masksToBounds = false
+//    layer.shadowColor   = UIColor.black.cgColor
+//    layer.shadowRadius  = 2.0
+//    layer.shadowOpacity = 1.0
+//    layer.shadowOffset  = CGSize(width : 2, height : 2)
+//    layer.masksToBounds = false
   }
 
 }

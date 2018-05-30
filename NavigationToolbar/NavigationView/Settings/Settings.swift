@@ -25,5 +25,6 @@ struct Settings {
   static var imageCrossOffset   : CGFloat      = 20
   static var imageAlpha         : CGFloat      = 0.33
   static var menuItemsSpacing   : CGFloat      = 4
+  static var menuItemTextMargin : CGFloat      = 40
   
 }

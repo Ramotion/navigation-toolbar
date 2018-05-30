@@ -66,7 +66,7 @@ class NavigationView: UIView {
     addSubview(topView)
     addSubview(bottomView)
     addSubview(middleView)
-    addSubview(menuButton)
+//    addSubview(menuButton)
     
     panRecognizer = PanDirectionGestureRecognizer(direction: .vertical, target: self, action: #selector(processPan))
     panRecognizer.delegate = self
@@ -201,19 +201,23 @@ extension NavigationView {
         } else if Settings.Sizes.navbarSize + 1..<Settings.Sizes.middleSize ~= middleOriginY {
           topView.isHidden = false
           topView.showSizingView()
+          fullscreenView.isHidden = true
           fullscreenView.state = .horizontal
           fullscreenView.updateHorizontalScrollInsets()
         } else if Settings.Sizes.middleSize == middleOriginY {
           topView.isHidden = false
           topView.hideSizingView()
+          fullscreenView.isHidden = false
           fullscreenView.state = .vertical
           fullscreenView.updateVerticalScrollInsets()
         } else if Settings.Sizes.middleSize + 1..<bounds.height * 2 ~= middleOriginY {
           topView.isHidden = true
           topView.hideSizingView()
+          fullscreenView.isHidden = false
           fullscreenView.state = .vertical
           fullscreenView.updateVerticalScrollInsets()
         } else if middleOriginY > bounds.height {
+          fullscreenView.isHidden = false
           panRecognizer.isEnabled = false
         }
         
