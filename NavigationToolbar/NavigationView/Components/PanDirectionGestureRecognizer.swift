@@ -38,4 +38,5 @@ class PanDirectionGestureRecognizer: UIPanGestureRecognizer {
       }
     }
   }
+  
 }

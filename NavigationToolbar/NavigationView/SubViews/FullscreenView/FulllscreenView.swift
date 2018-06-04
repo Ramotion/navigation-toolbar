@@ -18,15 +18,12 @@ class FulllscreenView: UIView {
   
   var delegate: FulllscreenViewDelegate?
   
-  private var animatedViews : [CellView] = []
-  private var images        : [UIImage]      = []
-  private var titles        : [String]       = []
+  private var animatedViews: [CellView] = []
+  private var images: [UIImage] = []
+  private var titles: [String] = []
   
   var progress: CGFloat = 0 {
     didSet {
-      print("FS PROG")
-      print(progress)
-      
       setNeedsLayout()
       layoutIfNeeded()
     }

@@ -34,20 +34,42 @@ extension UIView {
 
 import UIKit
 
+protocol BottomViewDelegate {
+  func bottomDidScroll(offset: CGFloat)
+}
+
 class BottomView: UIView {
   
   private var scrollView  : UIScrollView       = UIScrollView()
   private var views: [UIView] = []
   
-  var shouldBlockPan: Bool {
+  var delegate: BottomViewDelegate?
+
+  var canScroll: Bool = true {
+    didSet {
+      let needle = getRequiredView()
+
+      needle.isScrollEnabled = canScroll
+    }
+  }
+  
+  var canScrollDown: Bool {
     get {
       let needle = getRequiredView()
       
+      print(needle.contentOffset.y)
+      
       if needle.contentOffset.y <= 0 {
-        return false
+        return true
       }
       
-      return true
+      return false
+    }
+  }
+  
+  var currentOffset: CGFloat = 0.0 {
+    didSet {
+      self.scrollView.contentOffset.x = currentOffset
     }
   }
   
@@ -84,6 +106,7 @@ class BottomView: UIView {
     scrollView.showsVerticalScrollIndicator   = false
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.isPagingEnabled                = true
+    scrollView.delegate                       = self
     
     addSubview(scrollView)
   }
@@ -111,4 +134,14 @@ class BottomView: UIView {
     layoutIfNeeded()
   }
 
+}
+
+extension BottomView: UIScrollViewDelegate {
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    if scrollView == self.scrollView {
+      delegate?.bottomDidScroll(offset: scrollView.contentOffset.x)
+    }
+  }
+  
 }

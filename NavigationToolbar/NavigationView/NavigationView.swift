@@ -21,9 +21,7 @@ class NavigationView: UIView {
   private var bottomView          : BottomView      = BottomView()
   private var fullscreenView      : FulllscreenView = FulllscreenView()
   private var panRecognizer       : PanDirectionGestureRecognizer!
-  private var menuButton          : Button          = Button()
-  
-  private var menuIsOpen          : Bool            = false
+//  private var panRecognizer       : UILongPressGestureRecognizer!
   
   var currentIndex            : Int = 0 {
     didSet {
@@ -55,26 +53,32 @@ class NavigationView: UIView {
     
     topView.backgroundColor    = .clear
     bottomView.backgroundColor = .blue
+    bottomView.delegate = self
     
     fullscreenView.delegate = self
-    
-    menuButton.setTitle("", for: .normal)
-    menuButton.addTarget(self, action: #selector(tapMenuButton), for: .touchUpInside)
     
     addSubview(backGroundImageView)
     addSubview(fullscreenView)
     addSubview(topView)
     addSubview(bottomView)
     addSubview(middleView)
-//    addSubview(menuButton)
     
     panRecognizer = PanDirectionGestureRecognizer(direction: .vertical, target: self, action: #selector(processPan))
+//    panRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(processPan))
+//    panRecognizer.minimumPressDuration = 0.0
+//    panRecognizer.allowableMovement = CGFloat.infinity
+//    panRecognizer.numberOfTapsRequired = 1
+    panRecognizer.delaysTouchesBegan = false
+    panRecognizer.delaysTouchesEnded = false
+
     panRecognizer.delegate = self
     addGestureRecognizer(panRecognizer!)
   }
   
   override func layoutSubviews() {
     super.layoutSubviews()
+    
+    if middleOriginY < Settings.Sizes.navbarSize { middleOriginY = Settings.Sizes.navbarSize }
     
     backGroundImageView.frame = bounds
     
@@ -90,12 +94,6 @@ class NavigationView: UIView {
     
     if fullscreenView.state == .vertical {
       fullscreenView.setScrollOffset()
-    }
-    
-    if Settings.Sizes.isX {
-      menuButton.frame = CGRect(x: 16, y: 44, width: 32, height: 32)
-    } else {
-      menuButton.frame = CGRect(x: 16, y: 26, width: 32, height: 32)
     }
   }
   
@@ -114,92 +112,47 @@ class NavigationView: UIView {
     fullscreenView.setData(titles: titles, images: images)
     bottomView.setData(views: views)
   }
-  
-  @objc private func tapMenuButton() {
-    if menuIsOpen == false {
-      self.menuIsOpen = true
-      self.panRecognizer.isEnabled = false
-      fullscreenView.state = .vertical
-      topView.hideSizingView()
-      topView.isHidden = true
-      topView.toggleBottomStateViews()
-      self.menuButton.animate(progress: 1.0, duration: Settings.animationsDuration)
-      UIView.animate(withDuration: Settings.animationsDuration, animations: {
-        self.topView.toggleBottomStateViews()
-        self.middleOriginY = self.bounds.height
-        self.setNeedsLayout()
-        self.layoutIfNeeded()
-      }) { (completed) in
-        self.fullscreenView.updateHorizontalScrollInsets()
-        
-      }
-    } else {
-      self.menuIsOpen = false
-      self.panRecognizer.isEnabled = true
-      self.menuButton.animate(progress: 0.0, duration: Settings.animationsDuration)
-      
-      UIView.animate(withDuration: Settings.animationsDuration, animations: {
-        self.fullscreenView.scrollView.contentOffset.y = CGFloat(self.currentIndex) * (Settings.menuItemsSpacing + Settings.Sizes.menuItemsSize)
-      }) { (completed) in
-        if completed {
-          UIView.animate(withDuration: Settings.animationsDuration, animations: {
-            self.middleOriginY = Settings.Sizes.middleSize
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
-          }) { (completed) in
-            self.menuIsOpen = false
-            self.fullscreenView.state = .vertical
-            self.topView.toggleMiddleStateViews()
-          }
-        }
-      }
-    }
-  }
 
 }
 
 extension NavigationView {
   
   @objc private func processPan() {
+    var translation   = panRecognizer.translation(in: self)
+    
+    
+    
     var canPan: Bool = false
-    
-    let controlRect: CGRect = CGRect(x: 0, y: 0, width: bounds.width, height: middleView.frame.maxY)
-    
+
+    let controlRect: CGRect = CGRect(x: 0, y: 0, width: bounds.width, height: middleOriginY + Settings.Sizes.middleViewSize)
     let touchLocation = panRecognizer.location(in: self)
-    let translation   = panRecognizer.translation(in: self)
-    let velocity      = panRecognizer.velocity(in: self)
     
-    var currentDirection: Int = 0
+    //    let velocity      = panRecognizer.velocity(in: self)
     
-    if velocity.y > 0 {
-      //      print("panning bottom")
-      currentDirection = 2
-    } else {
-      //      print("panning top")
-      currentDirection = 1
-    }
-    
-    if controlRect.contains(touchLocation) && middleOriginY < bounds.height {
-      canPan = true
-    } else if currentDirection == 2 && !bottomView.shouldBlockPan {
-      canPan = true
-    } else if currentDirection == 1 && middleOriginY < bounds.height {
+    if controlRect.contains(touchLocation) {
       canPan = true
     }
     
-    if canPan {
-      switch panRecognizer.state {
-      case .began, .changed:
+    if bottomView.canScrollDown {
+      canPan = true
+    }
+    
+    switch panRecognizer.state {
+    case .began, .changed:
+      if canPan {
         middleOriginY = middleView.frame.origin.y + translation.y
         if middleOriginY < Settings.Sizes.navbarSize { middleOriginY = Settings.Sizes.navbarSize }
+        if translation.y < Settings.Sizes.navbarSize { translation.y = Settings.Sizes.navbarSize }
         
-        if Settings.Sizes.navbarSize == middleOriginY {
+        if 0...Settings.Sizes.navbarSize ~= middleOriginY {
           topView.isHidden = false
           topView.hideSizingView()
+          topView.toggleTopStateViews()
           fullscreenView.state = .horizontal
           fullscreenView.updateHorizontalScrollInsets()
         } else if Settings.Sizes.navbarSize + 1..<Settings.Sizes.middleSize ~= middleOriginY {
           topView.isHidden = false
+          topView.toggleMiddleStateViews()
           topView.showSizingView()
           fullscreenView.isHidden = true
           fullscreenView.state = .horizontal
@@ -207,7 +160,7 @@ extension NavigationView {
         } else if Settings.Sizes.middleSize == middleOriginY {
           topView.isHidden = false
           topView.hideSizingView()
-          fullscreenView.isHidden = false
+          fullscreenView.isHidden = true
           fullscreenView.state = .vertical
           fullscreenView.updateVerticalScrollInsets()
         } else if Settings.Sizes.middleSize + 1..<bounds.height * 2 ~= middleOriginY {
@@ -220,69 +173,63 @@ extension NavigationView {
           fullscreenView.isHidden = false
           panRecognizer.isEnabled = false
         }
-        
-      case .possible, .ended, .cancelled, .failed:
-        if 0...Settings.Sizes.middleSize / 2 ~= middleOriginY {
-          UIView.animate(withDuration: Settings.animationsDuration, animations: {
-            self.middleOriginY = Settings.Sizes.navbarSize
-            self.topView.setSizingViewProgress(progress: 0.0)
-          }) { _ in
-            self.topView.hideSizingView()
-            self.topView.isHidden = false
-            self.topView.toggleTopStateViews()
-            self.fullscreenView.updateHorizontalScrollInsets()
-          }
-        } else if Settings.Sizes.middleSize / 2 + 1...Settings.Sizes.middleSize ~= middleOriginY {
-          UIView.animate(withDuration: Settings.animationsDuration, animations: {
-            self.middleOriginY = Settings.Sizes.middleSize
-            self.topView.setSizingViewProgress(progress: 1.0)
-          }) { _ in
-            self.topView.hideSizingView()
-            self.topView.isHidden = false
-            self.topView.toggleMiddleStateViews()
-            self.fullscreenView.updateHorizontalScrollInsets()
-          }
-        } else if Settings.Sizes.middleSize + 1...bounds.height / 4 * 3 ~= middleOriginY {
-          UIView.animate(withDuration: Settings.animationsDuration, animations: {
-            self.middleOriginY = Settings.Sizes.middleSize
-          }) { _ in
-            self.topView.hideSizingView()
-            self.topView.isHidden = false
-            self.topView.toggleMiddleStateViews()
-            self.fullscreenView.updateVerticalScrollInsets()
-          }
-        } else if bounds.height / 4 * 3 + 1...bounds.height ~= middleOriginY {
-          UIView.animate(withDuration: Settings.animationsDuration, animations: {
-            self.middleOriginY = self.bounds.height
-          }) { _ in
-            self.topView.hideSizingView()
-            self.fullscreenView.updateVerticalScrollInsets()
-            self.panRecognizer.isEnabled = false
-            self.menuIsOpen = true
-          }
-        }
-        
       }
-      panRecognizer.setTranslation(CGPoint.zero, in: self)
+      
+    case .possible, .ended, .cancelled, .failed:
+      if 0...Settings.Sizes.middleSize / 2 ~= middleOriginY {
+        UIView.animate(withDuration: Settings.animationsDuration, animations: {
+          self.middleOriginY = Settings.Sizes.navbarSize
+          self.topView.setSizingViewProgress(progress: 0.0)
+        }) { _ in
+          self.topView.hideSizingView()
+          self.topView.isHidden = false
+          self.topView.toggleTopStateViews()
+          self.fullscreenView.updateHorizontalScrollInsets()
+        }
+      } else if Settings.Sizes.middleSize / 2 + 1...Settings.Sizes.middleSize ~= middleOriginY {
+        UIView.animate(withDuration: Settings.animationsDuration, animations: {
+          self.middleOriginY = Settings.Sizes.middleSize
+          self.topView.setSizingViewProgress(progress: 1.0)
+        }) { _ in
+          self.topView.hideSizingView()
+          self.topView.isHidden = false
+          self.topView.toggleMiddleStateViews()
+          self.fullscreenView.updateHorizontalScrollInsets()
+        }
+      } else if Settings.Sizes.middleSize + 1...bounds.height / 4 * 3 ~= middleOriginY {
+        UIView.animate(withDuration: Settings.animationsDuration, animations: {
+          self.middleOriginY = Settings.Sizes.middleSize
+        }) { _ in
+          self.topView.hideSizingView()
+          self.topView.isHidden = false
+          self.topView.toggleMiddleStateViews()
+          self.fullscreenView.updateVerticalScrollInsets()
+        }
+      } else if bounds.height / 4 * 3 + 1...bounds.height ~= middleOriginY {
+        UIView.animate(withDuration: Settings.animationsDuration, animations: {
+          self.middleOriginY = self.bounds.height
+        }) { _ in
+          self.topView.hideSizingView()
+          self.fullscreenView.updateVerticalScrollInsets()
+          self.panRecognizer.isEnabled = false
+        }
+      }
+      
     }
+    panRecognizer.setTranslation(CGPoint.zero, in: self)
   }
   
 }
 
 extension NavigationView: UIGestureRecognizerDelegate {
   
-  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-    
-    return true
-  }
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool { return true }
   
 }
 
 extension NavigationView: FulllscreenViewDelegate {
   
   func didTapCell(index: Int) {
-    self.menuIsOpen = false
-//    print("tap cell")
     currentIndex = index
     topView.updateOffsets()
     panRecognizer.isEnabled = true
@@ -308,8 +255,6 @@ extension NavigationView {
     if Settings.Sizes.middleSize...bounds.height ~= middleView.frame.origin.y {
       let diff: CGFloat = bounds.height - Settings.Sizes.middleSize
       
-      menuButton.setProgress((middleView.frame.minY - Settings.Sizes.middleSize) / diff > 1.0 ? 1.0 : (middleView.frame.minY - Settings.Sizes.middleSize) / diff)
-      
       return (middleView.frame.minY - Settings.Sizes.middleSize) / diff > 1.0 ? 1.0 : (middleView.frame.minY - Settings.Sizes.middleSize) / diff
     }
     if middleView.frame.origin.y > bounds.height {
@@ -317,6 +262,14 @@ extension NavigationView {
     }
     
     return 0.0
+  }
+  
+}
+
+extension NavigationView: BottomViewDelegate {
+  
+  func bottomDidScroll(offset: CGFloat) {
+    topView.currentOffset = offset
   }
   
 }

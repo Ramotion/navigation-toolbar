@@ -58,6 +58,19 @@ class SizingView: UIView {
     rightLabel.text     = nextTitle
   }
   
+  func animateCollapse() {
+    UIView.animate(withDuration: Settings.animationsDuration, animations: {
+      self.leftLabel.frame = CGRect(x: -1 * self.bounds.width * 0.21 - 200.0 * (1.0), y: 0, width: self.bounds.width / 2, height: self.bounds.height)
+      self.rightLabel.frame = CGRect(x: self.bounds.width / 2 + self.bounds.width * 0.21 + 200.0 * (1.0), y: 0, width: self.bounds.width / 2, height: self.bounds.height)
+      self.bounds = CGRect(x: 0, y: 0, width: self.bounds.width, height: Settings.Sizes.navbarSize)
+      
+      self.setNeedsLayout()
+      self.layoutIfNeeded()
+    }) { (completed) in
+      
+    }
+  }
+  
   override func layoutSubviews() {
     super.layoutSubviews()
     

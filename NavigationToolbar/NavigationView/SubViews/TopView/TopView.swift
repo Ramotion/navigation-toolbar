@@ -26,6 +26,14 @@ class TopView: UIView {
     }
   }
   
+  var currentOffset: CGFloat = 0.0 {
+    didSet {
+      collectionViewTop.contentOffset.x         = currentOffset
+      collectionViewMiddleImage.contentOffset.x = currentOffset
+      collectionViewMiddleText.contentOffset.x  = currentOffset
+    }
+  }
+  
   var size: CGFloat = Settings.Sizes.navbarSize {
     didSet {
       setNeedsLayout()
@@ -130,6 +138,10 @@ extension TopView {
   
   func showSizingView() {
     sizingView.isHidden = false
+  }
+  
+  func collapseSizingView() {
+    sizingView.animateCollapse()
   }
   
   func toggleTopStateViews() {
