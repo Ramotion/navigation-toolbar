@@ -54,6 +54,7 @@ class NavigationView: UIView {
     topView.backgroundColor    = .clear
     bottomView.backgroundColor = .blue
     bottomView.delegate = self
+    topView.delegate = self
     
     fullscreenView.delegate = self
     
@@ -120,14 +121,12 @@ extension NavigationView {
   @objc private func processPan() {
     var translation   = panRecognizer.translation(in: self)
     
-    
-    
     var canPan: Bool = false
 
     let controlRect: CGRect = CGRect(x: 0, y: 0, width: bounds.width, height: middleOriginY + Settings.Sizes.middleViewSize)
     let touchLocation = panRecognizer.location(in: self)
     
-    //    let velocity      = panRecognizer.velocity(in: self)
+    let velocity      = panRecognizer.velocity(in: self)
     
     if controlRect.contains(touchLocation) {
       canPan = true
@@ -135,6 +134,20 @@ extension NavigationView {
     
     if bottomView.canScrollDown {
       canPan = true
+    }
+    
+    var currentDirection: Int = 0
+    
+    if velocity.y > 0 {
+      currentDirection = 2
+    } else {
+      currentDirection = 1
+    }
+    
+    if currentDirection == 1 && middleOriginY >= Settings.Sizes.middleSize {
+      bottomView.canScroll = false
+    } else {
+      bottomView.canScroll = true
     }
     
     switch panRecognizer.state {
@@ -270,6 +283,14 @@ extension NavigationView: BottomViewDelegate {
   
   func bottomDidScroll(offset: CGFloat) {
     topView.currentOffset = offset
+  }
+  
+}
+
+extension NavigationView: TopViewDelegate {
+  
+  func topDidScroll(offset: CGFloat) {
+    bottomView.currentOffset = offset
   }
   
 }

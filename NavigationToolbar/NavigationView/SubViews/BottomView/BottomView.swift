@@ -57,8 +57,6 @@ class BottomView: UIView {
     get {
       let needle = getRequiredView()
       
-      print(needle.contentOffset.y)
-      
       if needle.contentOffset.y <= 0 {
         return true
       }
