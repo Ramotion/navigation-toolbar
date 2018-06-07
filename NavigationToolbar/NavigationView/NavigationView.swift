@@ -65,10 +65,8 @@ class NavigationView: UIView {
     addSubview(middleView)
     
     panRecognizer = PanDirectionGestureRecognizer(direction: .vertical, target: self, action: #selector(processPan))
-//    panRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(processPan))
-//    panRecognizer.minimumPressDuration = 0.0
-//    panRecognizer.allowableMovement = CGFloat.infinity
-//    panRecognizer.numberOfTapsRequired = 1
+    
+
     panRecognizer.delaysTouchesBegan = false
     panRecognizer.delaysTouchesEnded = false
 
@@ -153,6 +151,8 @@ extension NavigationView {
     switch panRecognizer.state {
     case .began, .changed:
       if canPan {
+        topView.isScrollingEnabled = false
+        bottomView.isScrollingEnabled = false
         middleOriginY = middleView.frame.origin.y + translation.y
         if middleOriginY < Settings.Sizes.navbarSize { middleOriginY = Settings.Sizes.navbarSize }
         if translation.y < Settings.Sizes.navbarSize { translation.y = Settings.Sizes.navbarSize }
@@ -189,6 +189,8 @@ extension NavigationView {
       }
       
     case .possible, .ended, .cancelled, .failed:
+      topView.isScrollingEnabled = true
+      bottomView.isScrollingEnabled = true
       if 0...Settings.Sizes.middleSize / 2 ~= middleOriginY {
         UIView.animate(withDuration: Settings.animationsDuration, animations: {
           self.middleOriginY = Settings.Sizes.navbarSize
@@ -238,6 +240,11 @@ extension NavigationView: UIGestureRecognizerDelegate {
   
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool { return true }
   
+  override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    let velocity = panRecognizer.velocity(in: self)
+    return fabs(velocity.y) > fabs(velocity.x)
+  }
+  
 }
 
 extension NavigationView: FulllscreenViewDelegate {
@@ -283,6 +290,7 @@ extension NavigationView: BottomViewDelegate {
   
   func bottomDidScroll(offset: CGFloat) {
     topView.currentOffset = offset
+    topView.updateIndex()
   }
   
 }
@@ -291,6 +299,7 @@ extension NavigationView: TopViewDelegate {
   
   func topDidScroll(offset: CGFloat) {
     bottomView.currentOffset = offset
+    topView.updateIndex()
   }
   
 }

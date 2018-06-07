@@ -26,6 +26,14 @@ class TopView: UIView {
   
   var delegate: TopViewDelegate?
   
+  var isScrollingEnabled: Bool = true {
+    didSet {
+      collectionViewTop.isScrollEnabled = isScrollingEnabled
+      collectionViewMiddleImage.isScrollEnabled = isScrollingEnabled
+      collectionViewMiddleText.isScrollEnabled = isScrollingEnabled
+    }
+  }
+  
   var currentIndex : Int = 0 {
     didSet {
       updateSizingView(index: currentIndex)
@@ -234,7 +242,7 @@ extension TopView: UIScrollViewDelegate {
     updateIndex()
   }
   
-  private func updateIndex() {
+  func updateIndex() {
     currentIndex = Int(collectionViewMiddleImage.contentOffset.x / UIScreen.main.bounds.width)
     (superview as! NavigationView).currentIndex = currentIndex
   }

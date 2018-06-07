@@ -44,6 +44,12 @@ class BottomView: UIView {
   private var views: [UIView] = []
   
   var delegate: BottomViewDelegate?
+  
+  var isScrollingEnabled: Bool = true {
+    didSet {
+      scrollView.isScrollEnabled = isScrollingEnabled
+    }
+  }
 
   var canScroll: Bool = true {
     didSet {
