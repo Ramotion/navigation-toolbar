@@ -132,7 +132,7 @@ class BottomView: UIView {
     self.views = views
     
     for view in self.views {
-      scrollView.addSubview(view)
+//      scrollView.addSubview(view)
     }
     setNeedsLayout()
     layoutIfNeeded()
