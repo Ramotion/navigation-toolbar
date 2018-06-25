@@ -40,10 +40,10 @@ class SizingView: UIView {
     label.textAlignment      = .center
     leftLabel.textAlignment  = .center
     rightLabel.textAlignment = .center
-    leftLabel.font           = UIFont.systemFont(ofSize : 20.75)
-    rightLabel.font          = UIFont.systemFont(ofSize : 20.75)
-    leftLabel.alpha          = 0.5
-    rightLabel.alpha         = 0.5
+    leftLabel.font           = UIFont.systemFont(ofSize : 23)
+    rightLabel.font          = UIFont.systemFont(ofSize : 23)
+    leftLabel.alpha          = 0.0
+    rightLabel.alpha         = 0.0
     
     addSubview(imageView)
     addSubview(label)
@@ -76,15 +76,25 @@ class SizingView: UIView {
     
     imageView.frame = CGRect(x: -1 * Settings.imageCrossOffset, y: 0, width: bounds.width + 2 * Settings.imageCrossOffset, height: bounds.height)
     
+    let offsetR: CGFloat = 165
+    let offsetL: CGFloat = 166
+    
     if Settings.Sizes.isX {
-      label.frame = CGRect(x: 0, y: 32 - 32 * progress, width: bounds.width, height: bounds.height - 32 + 32 * progress)
+      label.frame      = CGRect(x: 0,                                y: 32 - 32 * progress, width: bounds.width, height: bounds.height - 32 + 32 * progress)
+      rightLabel.frame = CGRect(x: offsetR + (200 - 200 * progress), y: 32 - 32 * progress, width: bounds.width, height: bounds.height - 32 + 32 * progress)
+      leftLabel.frame  = CGRect(x: -1 * offsetL - (200 - 200 * progress),                     y: 32 - 32 * progress, width: bounds.width, height: bounds.height - 32 + 32 * progress)
     } else {
-      label.frame = CGRect(x: 0, y: 20 - 20 * progress, width: bounds.width, height: bounds.height - 20 + 20 * progress)
+      label.frame      = CGRect(x: 0,                                y: 20 - 20 * progress, width: bounds.width, height: bounds.height - 20 + 20 * progress)
+      rightLabel.frame = CGRect(x: offsetR + (200 - 200 * progress), y: 20 - 20 * progress, width: bounds.width, height: bounds.height - 20 + 20 * progress)
+      leftLabel.frame  = CGRect(x: -1 * offsetL - (200 - 200 * progress),                     y: 20 - 20 * progress, width: bounds.width, height: bounds.height - 20 + 20 * progress)
     }
     
-    let half = bounds.width / 2
+    leftLabel.alpha  = 0.5 * progress
+    rightLabel.alpha = 0.5 * progress
     
-    leftLabel.frame = CGRect(x: -1 * bounds.width * 0.21 - 200.0 * (1.0 - progress), y: 0, width: bounds.width / 2, height: bounds.height)
-    rightLabel.frame = CGRect(x: half + bounds.width * 0.21 + 200.0 * (1.0 - progress), y: 0, width: bounds.width / 2, height: bounds.height)
+    
+    
+//    leftLabel.frame = CGRect(x: -1 * bounds.width * 0.21 - offset * (1.0 - progress), y: 0, width: bounds.width / 2, height: bounds.height)
+//    rightLabel.frame = CGRect(x: 270, y: 0, width: bounds.width / 2, height: bounds.height)
   }
 }

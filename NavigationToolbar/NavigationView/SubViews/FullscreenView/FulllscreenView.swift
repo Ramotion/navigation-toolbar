@@ -81,11 +81,15 @@ class FulllscreenView: UIView {
       nextLabel = labelViews[currentIndex + 1].label
     }
     
-    let right: CGFloat = 215
+    let right: CGFloat = 249
     
-    nextLabel.alpha = 0.7 + progress * 0.3
+//    prevLabel.alpha = 0.5 + progress * 0.5
+//    nextLabel.alpha = 0.5 + progress * 0.5
     
-    prevLabel.frame = CGRect(x: prevLabel.frame.origin.x, y: prevLabel.frame.origin.y, width: prevLabel.frame.width, height: prevLabel.frame.height)
+    prevLabel.alpha = 1.0
+    nextLabel.alpha = 1.0
+    
+    prevLabel.frame = CGRect(x: prevLabel.frame.origin.x + right * (1 - progress), y: prevLabel.frame.origin.y, width: prevLabel.frame.width, height: prevLabel.frame.height)
     nextLabel.frame = CGRect(x: nextLabel.frame.origin.x - right + right * progress, y: nextLabel.frame.origin.y, width: nextLabel.frame.width, height: nextLabel.frame.height)
   }
   
