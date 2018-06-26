@@ -8,8 +8,6 @@
 
 extension UIView {
   
-  /** This is the function to get subViews of a view of a particular type
-   */
   func subViews<T : UIView>(type : T.Type) -> [T]{
     var all = [T]()
     for view in self.subviews {
@@ -20,8 +18,6 @@ extension UIView {
     return all
   }
   
-  
-  /** This is a function to get subViews of a particular type from view recursively. It would look recursively in all subviews and return back the subviews of the type T */
   func allSubViewsOf<T : UIView>(type : T.Type) -> [T]{
     var all = [T]()
     func getSubview(view: UIView) {
@@ -38,20 +34,46 @@ extension UIView {
 
 import UIKit
 
+protocol BottomViewDelegate {
+  func bottomDidScroll(offset: CGFloat)
+}
+
 class BottomView: UIView {
   
   private var scrollView  : UIScrollView       = UIScrollView()
   private var views: [UIView] = []
   
-  var shouldBlockPan: Bool {
+  var delegate: BottomViewDelegate?
+  
+  var isScrollingEnabled: Bool = true {
+    didSet {
+      scrollView.isScrollEnabled = isScrollingEnabled
+    }
+  }
+
+  var canScroll: Bool = true {
+    didSet {
+      let needle = getRequiredView()
+
+      needle.isScrollEnabled = canScroll
+    }
+  }
+  
+  var canScrollDown: Bool {
     get {
       let needle = getRequiredView()
       
       if needle.contentOffset.y <= 0 {
-        return false
+        return true
       }
       
-      return true
+      return false
+    }
+  }
+  
+  var currentOffset: CGFloat = 0.0 {
+    didSet {
+      self.scrollView.contentOffset.x = currentOffset
     }
   }
   
@@ -73,16 +95,10 @@ class BottomView: UIView {
     var i = 0
     for view in allSubviews {
       if view.contentSize.width == bounds.width {
-        print("===========")
-        print(i)
-        print(view.contentSize)
-        print(view.frame.origin)
         let frame = (view.convert(view.frame, to: self))
-        print(frame)
         if frame.origin.x == 0 {
           return view
         }
-        print("-----------")
         i += 1
       }
     }
@@ -94,6 +110,7 @@ class BottomView: UIView {
     scrollView.showsVerticalScrollIndicator   = false
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.isPagingEnabled                = true
+    scrollView.delegate                       = self
     
     addSubview(scrollView)
   }
@@ -115,10 +132,20 @@ class BottomView: UIView {
     self.views = views
     
     for view in self.views {
-      scrollView.addSubview(view)
+//      scrollView.addSubview(view)
     }
     setNeedsLayout()
     layoutIfNeeded()
   }
 
+}
+
+extension BottomView: UIScrollViewDelegate {
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    if scrollView == self.scrollView {
+      delegate?.bottomDidScroll(offset: scrollView.contentOffset.x)
+    }
+  }
+  
 }

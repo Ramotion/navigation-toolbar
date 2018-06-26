@@ -18,9 +18,11 @@ class FulllscreenView: UIView {
   
   var delegate: FulllscreenViewDelegate?
   
-  private var animatedViews : [CellView] = []
-  private var images        : [UIImage]      = []
-  private var titles        : [String]       = []
+  private var animatedViews: [CellView] = []
+  private var labelViews: [LabelView] = []
+  
+  private var images: [UIImage] = []
+  private var titles: [String] = []
   
   var progress: CGFloat = 0 {
     didSet {
@@ -52,6 +54,7 @@ class FulllscreenView: UIView {
     backgroundColor = UIColor.clear
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.showsVerticalScrollIndicator   = false
+    scrollView.alwaysBounceHorizontal = false
     
     addSubview(scrollView)
   }
@@ -65,7 +68,29 @@ class FulllscreenView: UIView {
     
     for i in 0..<animatedViews.count {
       animatedViews[i].frame = makeFrames()[i]
+      labelViews[i].frame = animatedViews[i].frame
     }
+    
+    var prevLabel = UILabel()
+    var nextLabel = UILabel()
+    
+    if currentIndex - 1 >= 0 {
+      prevLabel = labelViews[currentIndex - 1].label
+    }
+    if currentIndex + 1 <= labelViews.count - 1 {
+      nextLabel = labelViews[currentIndex + 1].label
+    }
+    
+    let right: CGFloat = 249
+    
+//    prevLabel.alpha = 0.5 + progress * 0.5
+//    nextLabel.alpha = 0.5 + progress * 0.5
+    
+    prevLabel.alpha = 1.0
+    nextLabel.alpha = 1.0
+    
+    prevLabel.frame = CGRect(x: prevLabel.frame.origin.x + right * (1 - progress), y: prevLabel.frame.origin.y, width: prevLabel.frame.width, height: prevLabel.frame.height)
+    nextLabel.frame = CGRect(x: nextLabel.frame.origin.x - right + right * progress, y: nextLabel.frame.origin.y, width: nextLabel.frame.width, height: nextLabel.frame.height)
   }
   
   private func makeViews() {
@@ -79,6 +104,18 @@ class FulllscreenView: UIView {
     for view in animatedViews {
       scrollView.addSubview(view)
     }
+    
+    for i in 0..<titles.count {
+      let labelView = LabelView()
+      labelView.delegate = self
+      
+      labelView.setData(title: titles[i], image: images[i], index: i)
+      labelViews.append(labelView)
+    }
+    for label in labelViews {
+      scrollView.addSubview(label)
+    }
+    
     self.setNeedsLayout()
     self.layoutIfNeeded()
   }
@@ -108,6 +145,7 @@ class FulllscreenView: UIView {
         frames.append(frame)
         
         animatedViews[i].setState(progress: progress, state: state)
+        labelViews[i].setState(progress: progress, state: state)
       }
     }
     
@@ -144,6 +182,14 @@ class FulllscreenView: UIView {
 extension FulllscreenView: CellViewDelegate {
   
   func didTapCell(index: Int, cell: CellView) {
+    self.delegate?.didTapCell(index: index)
+  }
+  
+}
+
+extension FulllscreenView: LabelViewDelegate {
+  
+  func didTapCell(index: Int, cell: LabelView) {
     self.delegate?.didTapCell(index: index)
   }
   

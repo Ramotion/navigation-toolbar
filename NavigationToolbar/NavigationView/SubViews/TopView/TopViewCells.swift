@@ -37,7 +37,11 @@ class TopViewCellOne: UICollectionViewCell {
   override func layoutSubviews() {
     super.layoutSubviews()
     
-    label.frame     = bounds
+    if Settings.Sizes.isX {
+      label.frame = CGRect(x: 0, y: 32, width: bounds.width, height: bounds.height - 32)
+    } else {
+      label.frame = CGRect(x: 0, y: 20, width: bounds.width, height: bounds.height - 20)
+    }
     imageView.frame = CGRect(x: -1 * Settings.imageCrossOffset, y: 0, width: bounds.width + 2 * Settings.imageCrossOffset, height: bounds.height)
   }
   
