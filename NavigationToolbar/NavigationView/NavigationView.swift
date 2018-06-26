@@ -52,7 +52,7 @@ class NavigationView: UIView {
     backGroundImageView.image = UIImage(named: "background")
     
     topView.backgroundColor    = .clear
-    bottomView.backgroundColor = .blue
+    bottomView.backgroundColor = .white
     bottomView.delegate = self
     topView.delegate = self
     

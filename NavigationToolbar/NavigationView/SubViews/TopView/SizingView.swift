@@ -42,8 +42,8 @@ class SizingView: UIView {
     rightLabel.textAlignment = .center
     leftLabel.font           = UIFont.systemFont(ofSize : 23)
     rightLabel.font          = UIFont.systemFont(ofSize : 23)
-    leftLabel.alpha          = 0.0
-    rightLabel.alpha         = 0.0
+    leftLabel.alpha          = 1.0
+    rightLabel.alpha         = 1.0
     
     addSubview(imageView)
     addSubview(label)
@@ -89,8 +89,11 @@ class SizingView: UIView {
       leftLabel.frame  = CGRect(x: -1 * offsetL - (200 - 200 * progress),                     y: 20 - 20 * progress, width: bounds.width, height: bounds.height - 20 + 20 * progress)
     }
     
-    leftLabel.alpha  = 0.5 * progress
-    rightLabel.alpha = 0.5 * progress
+//    leftLabel.alpha  = 0.5 * progress
+//    rightLabel.alpha = 0.5 * progress
+    
+    leftLabel.alpha  = 1.0
+    rightLabel.alpha = 1.0
     
     
     
