@@ -37,7 +37,8 @@ public struct MovementAnimator: LayoutAttributesAnimator {
   
   public func animate(collectionView: UICollectionView, attributes: AnimatedCollectionViewLayoutAttributes) {
     let position       = attributes.middleOffset
-    let scaleFactor    = scaleRate - 0.1 * abs(position)
+//    let scaleFactor    = scaleRate - 0.1 * abs(position)
+    let scaleFactor    = scaleRate
     let scaleTransform = CGAffineTransform(scaleX : scaleFactor, y : scaleFactor)
     
     let translationTransform: CGAffineTransform
@@ -52,7 +53,8 @@ public struct MovementAnimator: LayoutAttributesAnimator {
       translationTransform = CGAffineTransform(translationX : 0, y : translationY)
     }
     
-    attributes.alpha     = 1.0 - abs(position) + minAlpha
+//    attributes.alpha     = 1.0 - abs(position) + minAlpha
+    attributes.alpha     = 1.0
     attributes.transform = translationTransform.concatenating(scaleTransform)
   }
 }

@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TopViewDelegate {
+  func topDidScroll(offset: CGFloat)
+}
+
 class TopView: UIView {
   
   private var collectionViewTop         : UICollectionView!
@@ -20,9 +24,28 @@ class TopView: UIView {
   
   private var direction    : UICollectionViewScrollDirection = .horizontal
   
+  var delegate: TopViewDelegate?
+  
+  var isScrollingEnabled: Bool = true {
+    didSet {
+      collectionViewTop.isScrollEnabled = isScrollingEnabled
+      collectionViewMiddleImage.isScrollEnabled = isScrollingEnabled
+      collectionViewMiddleText.isScrollEnabled = isScrollingEnabled
+    }
+  }
+  
   var currentIndex : Int = 0 {
     didSet {
       updateSizingView(index: currentIndex)
+    }
+  }
+  
+  var currentOffset: CGFloat = 0.0 {
+    didSet {
+      collectionViewTop.contentOffset.x         = currentOffset
+      collectionViewMiddleImage.contentOffset.x = currentOffset
+      collectionViewMiddleText.contentOffset.x  = currentOffset
+      updateIndex()
     }
   }
   
@@ -132,6 +155,10 @@ extension TopView {
     sizingView.isHidden = false
   }
   
+  func collapseSizingView() {
+    sizingView.animateCollapse()
+  }
+  
   func toggleTopStateViews() {
     collectionViewTop.isHidden         = false
     collectionViewMiddleImage.isHidden = true
@@ -215,7 +242,7 @@ extension TopView: UIScrollViewDelegate {
     updateIndex()
   }
   
-  private func updateIndex() {
+  func updateIndex() {
     currentIndex = Int(collectionViewMiddleImage.contentOffset.x / UIScreen.main.bounds.width)
     (superview as! NavigationView).currentIndex = currentIndex
   }
@@ -224,27 +251,33 @@ extension TopView: UIScrollViewDelegate {
     if collectionViewMiddleText.isTracking {
       collectionViewTop.contentOffset.x         = collectionViewMiddleText.contentOffset.x
       collectionViewMiddleImage.contentOffset.x = collectionViewMiddleText.contentOffset.x
+      delegate?.topDidScroll(offset: collectionViewMiddleText.contentOffset.x)
     }
     if collectionViewMiddleText.isDragging {
       collectionViewTop.contentOffset.x         = collectionViewMiddleText.contentOffset.x
       collectionViewMiddleImage.contentOffset.x = collectionViewMiddleText.contentOffset.x
+      delegate?.topDidScroll(offset: collectionViewMiddleText.contentOffset.x)
     }
     if collectionViewMiddleText.isDecelerating {
       collectionViewTop.contentOffset.x         = collectionViewMiddleText.contentOffset.x
       collectionViewMiddleImage.contentOffset.x = collectionViewMiddleText.contentOffset.x
+      delegate?.topDidScroll(offset: collectionViewMiddleText.contentOffset.x)
     }
     
     if collectionViewTop.isTracking {
       collectionViewMiddleText.contentOffset.x  = collectionViewTop.contentOffset.x
       collectionViewMiddleImage.contentOffset.x = collectionViewTop.contentOffset.x
+      delegate?.topDidScroll(offset: collectionViewTop.contentOffset.x)
     }
     if collectionViewTop.isDragging {
       collectionViewMiddleText.contentOffset.x  = collectionViewTop.contentOffset.x
       collectionViewMiddleImage.contentOffset.x = collectionViewTop.contentOffset.x
+      delegate?.topDidScroll(offset: collectionViewTop.contentOffset.x)
     }
     if collectionViewTop.isDecelerating {
       collectionViewMiddleText.contentOffset.x  = collectionViewTop.contentOffset.x
       collectionViewMiddleImage.contentOffset.x = collectionViewTop.contentOffset.x
+      delegate?.topDidScroll(offset: collectionViewTop.contentOffset.x)
     }
   }
   

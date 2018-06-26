@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE7A9FCA20E19B670031CA09 /* LabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7A9FC920E19B670031CA09 /* LabelView.swift */; };
 		EE8F275A20B368E100736AF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F275920B368E100736AF4 /* AppDelegate.swift */; };
 		EE8F276120B368E500736AF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE8F276020B368E500736AF4 /* Assets.xcassets */; };
 		EE8F276420B368E500736AF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE8F276220B368E500736AF4 /* LaunchScreen.storyboard */; };
@@ -25,7 +26,7 @@
 		EE8F279220B392F200736AF4 /* DummyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F279120B392F200736AF4 /* DummyController.swift */; };
 		EE8F279420B3930A00736AF4 /* DummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F279320B3930A00736AF4 /* DummyView.swift */; };
 		EE8F279720B39EEC00736AF4 /* FulllscreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F279620B39EEC00736AF4 /* FulllscreenView.swift */; };
-		EE8F279920B39F0100736AF4 /* AnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F279820B39F0100736AF4 /* AnimatedView.swift */; };
+		EE8F279920B39F0100736AF4 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F279820B39F0100736AF4 /* CellView.swift */; };
 		EECF8AAB20B4247700E98052 /* PanDirectionGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECF8AAA20B4247700E98052 /* PanDirectionGestureRecognizer.swift */; };
 		EECF8AAD20B4664100E98052 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECF8AAC20B4664100E98052 /* Button.swift */; };
 		EEEFA5D220B4159A008099E4 /* TopViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEFA5D120B4159A008099E4 /* TopViewCells.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EE7A9FC920E19B670031CA09 /* LabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelView.swift; sourceTree = "<group>"; };
 		EE8F275620B368E100736AF4 /* NavigationToolbar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavigationToolbar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE8F275920B368E100736AF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EE8F276020B368E500736AF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -54,7 +56,7 @@
 		EE8F279120B392F200736AF4 /* DummyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyController.swift; sourceTree = "<group>"; };
 		EE8F279320B3930A00736AF4 /* DummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyView.swift; sourceTree = "<group>"; };
 		EE8F279620B39EEC00736AF4 /* FulllscreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FulllscreenView.swift; sourceTree = "<group>"; };
-		EE8F279820B39F0100736AF4 /* AnimatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedView.swift; sourceTree = "<group>"; };
+		EE8F279820B39F0100736AF4 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		EECF8AAA20B4247700E98052 /* PanDirectionGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanDirectionGestureRecognizer.swift; sourceTree = "<group>"; };
 		EECF8AAC20B4664100E98052 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		EEEFA5D120B4159A008099E4 /* TopViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewCells.swift; sourceTree = "<group>"; };
@@ -212,7 +214,8 @@
 			isa = PBXGroup;
 			children = (
 				EE8F279620B39EEC00736AF4 /* FulllscreenView.swift */,
-				EE8F279820B39F0100736AF4 /* AnimatedView.swift */,
+				EE8F279820B39F0100736AF4 /* CellView.swift */,
+				EE7A9FC920E19B670031CA09 /* LabelView.swift */,
 			);
 			path = FullscreenView;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				EEEFA5D220B4159A008099E4 /* TopViewCells.swift in Sources */,
 				EEEFA5D420B41750008099E4 /* TopViewAnimators.swift in Sources */,
 				EE8F277420B36E7700736AF4 /* NavigationView.swift in Sources */,
+				EE7A9FCA20E19B670031CA09 /* LabelView.swift in Sources */,
 				EECF8AAD20B4664100E98052 /* Button.swift in Sources */,
 				EECF8AAB20B4247700E98052 /* PanDirectionGestureRecognizer.swift in Sources */,
 				EE8F278720B3747200736AF4 /* ScreenObject.swift in Sources */,
@@ -303,7 +307,7 @@
 				EE8F278520B3715400736AF4 /* UIImage+gradient.swift in Sources */,
 				EE8F279420B3930A00736AF4 /* DummyView.swift in Sources */,
 				EE8F278120B36FE900736AF4 /* Settings.swift in Sources */,
-				EE8F279920B39F0100736AF4 /* AnimatedView.swift in Sources */,
+				EE8F279920B39F0100736AF4 /* CellView.swift in Sources */,
 				EE8F277B20B36EE300736AF4 /* TopView.swift in Sources */,
 				EE8F278B20B388A500736AF4 /* SizingView.swift in Sources */,
 				EEEFA5D620B41775008099E4 /* TopViewCollectionLayout.swift in Sources */,

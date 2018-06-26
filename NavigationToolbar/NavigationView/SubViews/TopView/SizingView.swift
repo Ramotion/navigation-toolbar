@@ -40,10 +40,10 @@ class SizingView: UIView {
     label.textAlignment      = .center
     leftLabel.textAlignment  = .center
     rightLabel.textAlignment = .center
-    leftLabel.font           = UIFont.systemFont(ofSize : 20.75)
-    rightLabel.font          = UIFont.systemFont(ofSize : 20.75)
-    leftLabel.alpha          = 0.5
-    rightLabel.alpha         = 0.5
+    leftLabel.font           = UIFont.systemFont(ofSize : 23)
+    rightLabel.font          = UIFont.systemFont(ofSize : 23)
+    leftLabel.alpha          = 1.0
+    rightLabel.alpha         = 1.0
     
     addSubview(imageView)
     addSubview(label)
@@ -58,15 +58,46 @@ class SizingView: UIView {
     rightLabel.text     = nextTitle
   }
   
+  func animateCollapse() {
+    UIView.animate(withDuration: Settings.animationsDuration, animations: {
+      self.leftLabel.frame = CGRect(x: -1 * self.bounds.width * 0.21 - 200.0 * (1.0), y: 0, width: self.bounds.width / 2, height: self.bounds.height)
+      self.rightLabel.frame = CGRect(x: self.bounds.width / 2 + self.bounds.width * 0.21 + 200.0 * (1.0), y: 0, width: self.bounds.width / 2, height: self.bounds.height)
+      self.bounds = CGRect(x: 0, y: 0, width: self.bounds.width, height: Settings.Sizes.navbarSize)
+      
+      self.setNeedsLayout()
+      self.layoutIfNeeded()
+    }) { (completed) in
+      
+    }
+  }
+  
   override func layoutSubviews() {
     super.layoutSubviews()
     
     imageView.frame = CGRect(x: -1 * Settings.imageCrossOffset, y: 0, width: bounds.width + 2 * Settings.imageCrossOffset, height: bounds.height)
-    label.frame      = bounds
     
-    let half = bounds.width / 2
+    let offsetR: CGFloat = 165
+    let offsetL: CGFloat = 166
     
-    leftLabel.frame = CGRect(x: -1 * bounds.width * 0.21 - 200.0 * (1.0 - progress), y: 0, width: bounds.width / 2, height: bounds.height)
-    rightLabel.frame = CGRect(x: half + bounds.width * 0.21 + 200.0 * (1.0 - progress), y: 0, width: bounds.width / 2, height: bounds.height)
+    if Settings.Sizes.isX {
+      label.frame      = CGRect(x: 0,                                y: 32 - 32 * progress, width: bounds.width, height: bounds.height - 32 + 32 * progress)
+      rightLabel.frame = CGRect(x: offsetR + (200 - 200 * progress), y: 32 - 32 * progress, width: bounds.width, height: bounds.height - 32 + 32 * progress)
+      leftLabel.frame  = CGRect(x: -1 * offsetL - (200 - 200 * progress),                     y: 32 - 32 * progress, width: bounds.width, height: bounds.height - 32 + 32 * progress)
+    } else {
+      label.frame      = CGRect(x: 0,                                y: 20 - 20 * progress, width: bounds.width, height: bounds.height - 20 + 20 * progress)
+      rightLabel.frame = CGRect(x: offsetR + (200 - 200 * progress), y: 20 - 20 * progress, width: bounds.width, height: bounds.height - 20 + 20 * progress)
+      leftLabel.frame  = CGRect(x: -1 * offsetL - (200 - 200 * progress),                     y: 20 - 20 * progress, width: bounds.width, height: bounds.height - 20 + 20 * progress)
+    }
+    
+//    leftLabel.alpha  = 0.5 * progress
+//    rightLabel.alpha = 0.5 * progress
+    
+    leftLabel.alpha  = 1.0
+    rightLabel.alpha = 1.0
+    
+    
+    
+//    leftLabel.frame = CGRect(x: -1 * bounds.width * 0.21 - offset * (1.0 - progress), y: 0, width: bounds.width / 2, height: bounds.height)
+//    rightLabel.frame = CGRect(x: 270, y: 0, width: bounds.width / 2, height: bounds.height)
   }
 }
