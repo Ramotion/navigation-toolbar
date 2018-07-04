@@ -137,6 +137,10 @@ class BottomView: UIView {
     setNeedsLayout()
     layoutIfNeeded()
   }
+  
+  func updateOffsets() {
+    scrollView.setContentOffset(CGPoint(x: CGFloat(currentIndex) * UIScreen.main.bounds.width, y: 0), animated: false)
+  }
 
 }
 

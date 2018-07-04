@@ -21,7 +21,6 @@ class NavigationView: UIView {
   private var bottomView          : BottomView      = BottomView()
   private var fullscreenView      : FulllscreenView = FulllscreenView()
   private var panRecognizer       : PanDirectionGestureRecognizer!
-//  private var panRecognizer       : UILongPressGestureRecognizer!
   
   var currentIndex            : Int = 0 {
     didSet {
@@ -217,6 +216,7 @@ extension NavigationView {
         }) { _ in
           self.topView.hideSizingView()
           self.topView.isHidden = false
+          self.fullscreenView.isHidden = true
           self.topView.toggleMiddleStateViews()
           self.fullscreenView.updateVerticalScrollInsets()
         }
@@ -252,6 +252,7 @@ extension NavigationView: FulllscreenViewDelegate {
   func didTapCell(index: Int) {
     currentIndex = index
     topView.updateOffsets()
+    bottomView.updateOffsets()
     panRecognizer.isEnabled = true
     
     UIView.animate(withDuration: Settings.animationsDuration, delay: 0.0, options: .curveEaseOut, animations: {
@@ -261,6 +262,7 @@ extension NavigationView: FulllscreenViewDelegate {
     }) { (completed) in
       if completed {
         self.topView.isHidden = false
+        self.fullscreenView.isHidden = true
         self.topView.toggleMiddleStateViews()
         self.fullscreenView.updateHorizontalScrollInsets()
       }
