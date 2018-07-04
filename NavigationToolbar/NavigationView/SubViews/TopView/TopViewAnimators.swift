@@ -29,7 +29,7 @@ public struct MovementAnimator: LayoutAttributesAnimator {
   public var itemSpacing : CGFloat
   public var scaleRate   : CGFloat
   
-  public init(minAlpha: CGFloat = 0.5, itemSpacing: CGFloat = 0.6, scaleRate: CGFloat = 1) {
+  public init(minAlpha: CGFloat = 0.3, itemSpacing: CGFloat = 0.4, scaleRate: CGFloat = 1) {
     self.minAlpha    = minAlpha
     self.itemSpacing = itemSpacing
     self.scaleRate   = scaleRate
@@ -53,8 +53,8 @@ public struct MovementAnimator: LayoutAttributesAnimator {
       translationTransform = CGAffineTransform(translationX : 0, y : translationY)
     }
     
-//    attributes.alpha     = 1.0 - abs(position) + minAlpha
-    attributes.alpha     = 1.0
+    attributes.alpha     = 1.0 - abs(position) + minAlpha
+//    attributes.alpha     = 1.0
     attributes.transform = translationTransform.concatenating(scaleTransform)
   }
 }
