@@ -51,8 +51,6 @@ github "Ramotion/navigation-toolbar"
 
 2) Create ScreenObject for every screen:
 
-#### or Code
-
 ``` swift
 class ViewController: UIViewController {
 
