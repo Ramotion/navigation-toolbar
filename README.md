@@ -13,7 +13,7 @@
 
 # Check this library on other platforms:
 <a href="https://github.com/Ramotion/navigation-toolbar-android">
-<img src="https://github.com/Ramotion/navigation-toolbar-android/raw/master/Navigation-toolbar.gif" width="178" height="81"></a>
+<img src="https://github.com/Ramotion/navigation-stack/raw/master/Android_Kotlin@2x.png" width="178" height="81"></a>
 
 **Looking for developers for your project?**<br>
 This project is maintained by Ramotion, Inc. We specialize in the designing and coding of custom UI for Mobile Apps and Websites.
