@@ -4,11 +4,10 @@
 
 # navigation-toolbar
 [![Twitter](https://img.shields.io/badge/Twitter-@Ramotion-blue.svg?style=flat)](http://twitter.com/Ramotion)
-[![CocoaPods](https://img.shields.io/cocoapods/p/paper-onboarding.svg)](https://cocoapods.org/pods/paper-onboarding)
-[![CocoaPods](https://img.shields.io/cocoapods/v/paper-onboarding.svg)](http://cocoapods.org/pods/paper-onboarding)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Ramotion/paper-onboarding)
-[![Travis](https://img.shields.io/travis/Ramotion/paper-onboarding.svg)](https://travis-ci.org/Ramotion/paper-onboarding)
-[![codebeat badge](https://codebeat.co/badges/d06237c6-6ff7-4560-9602-b6cc65063383)](https://codebeat.co/projects/github-com-ramotion-paper-onboarding)
+[![CocoaPods](https://img.shields.io/cocoapods/p/navigation-toolbar.svg)](https://cocoapods.org/pods/Navigation-Toolbar)
+[![CocoaPods](https://img.shields.io/cocoapods/v/navigation-toolbar.svg)](http://cocoapods.org/pods/Navigation-Toolbar)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Ramotion/navigation-toolbar)
+[![codebeat badge](https://codebeat.co/badges/9460af06-c0f9-4063-8bb5-a802136d3cbf)](https://codebeat.co/projects/github-com-ramotion-navigation-toolbar-master)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://paypal.me/Ramotion)
 
 # Check this library on other platforms:
