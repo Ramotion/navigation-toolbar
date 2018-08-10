@@ -1,5 +1,5 @@
 ![header](./header.png)
-<img src="https://github.com/Ramotion/paper-onboarding/blob/master/paper-onboarding.gif" width="600" height="450" />
+<img src="https://github.com/vladiram/navigation-toolbar/blob/master/iOS-Navigation-Toolbar-1x.gif" width="600" height="450" />
 <br><br/>
 
 # navigation-toolbar
