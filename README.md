@@ -7,7 +7,7 @@
 [![Twitter](https://img.shields.io/badge/Twitter-@Ramotion-blue.svg?style=flat)](http://twitter.com/Ramotion)
 [![CocoaPods](https://img.shields.io/cocoapods/p/navigation-toolbar.svg)](https://cocoapods.org/pods/Navigation-Toolbar)
 [![CocoaPods](https://img.shields.io/cocoapods/v/navigation-toolbar.svg)](http://cocoapods.org/pods/Navigation-Toolbar)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Ramotion/navigation-toolbar)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-uncompatible-4BC51D.svg?style=flat)](https://github.com/Ramotion/navigation-toolbar)
 [![codebeat badge](https://codebeat.co/badges/9460af06-c0f9-4063-8bb5-a802136d3cbf)](https://codebeat.co/projects/github-com-ramotion-navigation-toolbar-master)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://paypal.me/Ramotion)
 
