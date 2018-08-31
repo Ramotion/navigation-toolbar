@@ -35,7 +35,7 @@ Just add the Source folder to your project.
 or use [CocoaPods](https://cocoapods.org) with Podfile:
 
 ``` ruby
-pod 'navigation-toolbar'
+pod 'Navigation-Toolbar'
 ```
 
 or [Carthage](https://github.com/Carthage/Carthage) users can simply add to their `Cartfile`:
