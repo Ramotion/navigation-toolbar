@@ -51,7 +51,7 @@ open class NavigationView: UIView {
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-//        setup()
+        setup()
     }
     
     private func setup() {
