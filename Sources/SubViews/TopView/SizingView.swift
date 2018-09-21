@@ -144,7 +144,7 @@ class SizingView: UIView {
                                      height: bounds.height - Settings.Sizes.yOffset + Settings.Sizes.yOffset * progress)
         }
         
-        leftLabel.alpha  = 0.3
-        rightLabel.alpha = 0.3
+        leftLabel.alpha  = 0.33
+        rightLabel.alpha = 0.33
     }
 }

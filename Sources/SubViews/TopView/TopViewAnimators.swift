@@ -29,7 +29,7 @@ struct MovementAnimator: LayoutAttributesAnimator {
     var itemSpacing: CGFloat
     var scaleRate: CGFloat
     
-    public init(minAlpha: CGFloat = 0.3,
+    public init(minAlpha: CGFloat = 0.33,
                 itemSpacing: CGFloat = 0.4,
                 scaleRate: CGFloat = 1) {
         self.minAlpha = minAlpha
