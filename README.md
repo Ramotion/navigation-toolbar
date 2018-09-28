@@ -49,7 +49,7 @@ github "Ramotion/navigation-toolbar"
 
 1) Create a new UIView inheriting from ```NavigationView```
 
-2) Create ScreenObject for every screen:
+2) Create ScreenObject for every screen and provide required configuration, see example:
 
 ``` swift
 class ViewController: UIViewController {
