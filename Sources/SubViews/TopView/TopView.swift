@@ -22,7 +22,7 @@ class TopView: UIView {
     private var images: [UIImage] = []
     private var titles: [String] = []
     
-    private var direction: UICollectionViewScrollDirection = .horizontal
+    private var direction: UICollectionView.ScrollDirection = .horizontal
     
     var delegate: TopViewDelegate?
     

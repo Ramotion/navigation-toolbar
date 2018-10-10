@@ -60,7 +60,7 @@ class AnimatedCollectionViewLayout: UICollectionViewFlowLayout {
 public class AnimatedCollectionViewLayoutAttributes: UICollectionViewLayoutAttributes {
     
     var contentView: UIView?
-    var scrollDirection: UICollectionViewScrollDirection = .vertical
+    var scrollDirection: UICollectionView.ScrollDirection = .vertical
     
     var startOffset: CGFloat = 0
     var middleOffset: CGFloat = 0

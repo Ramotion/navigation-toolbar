@@ -293,7 +293,7 @@ extension NavigationView: UIGestureRecognizerDelegate {
     
     override open func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         let velocity = panRecognizer.velocity(in: self)
-        return fabs(velocity.y) > fabs(velocity.x)
+      return abs(velocity.y) > abs(velocity.x)
     }
     
 }
