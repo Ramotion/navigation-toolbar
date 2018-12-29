@@ -1,3 +1,5 @@
+<img src="https://github.com/Ramotion/folding-cell/blob/master/header.png">
+
 <a href="https://github.com/Ramotion/navigation-toolbar">
 <img align="left" src="https://github.com/Ramotion/navigation-toolbar/blob/master/iOS-Navigation-Toolbar-1x.gif" width="480" height="360" /></a>
 
