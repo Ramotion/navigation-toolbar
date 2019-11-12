@@ -279,6 +279,8 @@ extension NavigationView {
                 }
             }
             
+        @unknown default:
+            break
         }
         panRecognizer.setTranslation(CGPoint.zero, in: self)
     }

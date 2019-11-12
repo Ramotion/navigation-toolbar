@@ -15,8 +15,8 @@ class DummyCell: UITableViewCell {
   private var subtitleLabel = UILabel()
   private var separatorView = UIView()
   private var contentImageView = UIImageView()
-
-  override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     setup()
   }
