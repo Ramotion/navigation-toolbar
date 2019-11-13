@@ -37,7 +37,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "NavigationToolbar",
-            path: "Source")
+            path: "Sources")
     ],
     swiftLanguageVersions: [.v5]
 )
